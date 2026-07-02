@@ -1,0 +1,11 @@
+original/resume.md
+done/*
+not-apply-since-lower-chance/*
+session-context.md
+setting.json
+work-in-progress/*
+!work-in-progress/jobs-to-scan.md
+
+.DS_Store
+**/.DS_Store
+.obsidian/

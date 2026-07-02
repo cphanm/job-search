@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Job Search Launcher</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 60px auto;
+      text-align: center;
+      color: #333;
+    }
+    h1 { font-size: 1.4rem; margin-bottom: 8px; }
+    p { color: #666; font-size: 0.9rem; margin-bottom: 32px; }
+    button {
+      padding: 14px 32px;
+      font-size: 1rem;
+      background: #1a1a1a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover { background: #333; }
+    #status { margin-top: 20px; font-size: 0.85rem; color: #666; }
+  </style>
+</head>
+<body>
+  <h1>Job Search Launcher</h1>
+  <p>Product Manager &mdash; London, UK &mdash; Past 7 days<br>Opens 12 ATS searches as new tabs.</p>
+  <button onclick="openAll()">Open All Searches</button>
+  <div id="status"></div>
+
+  <script>
+    const searches = [
+      { label: "Workable",        url: "https://www.google.com/search?q=site:jobs.workable.com+%22product+manager%22+%22london%22&tbs=qdr:w" },
+      { label: "Greenhouse",      url: "https://www.google.com/search?q=site:boards.greenhouse.io+%22product+manager%22+%22london%22&tbs=qdr:w" },
+      { label: "Lever",           url: "https://www.google.com/search?q=site:jobs.lever.co+%22product+manager%22+%22london%22&tbs=qdr:w" },
+      { label: "Ashby",           url: "https://www.google.com/search?q=site:jobs.ashbyhq.com+%22product+manager%22+%22london%22&tbs=qdr:w" },
+      { label: "SmartRecruiters", url: "https://www.google.com/search?q=site:jobs.smartrecruiters.com+%22product+manager%22+%22london%22&tbs=qdr:w" },
+      { label: "Jobvite",         url: "https://www.google.com/search?q=site:jobs.jobvite.com+%22product+manager%22+%22london%22&tbs=qdr:w" },
+      { label: "Recruitee",       url: "https://www.google.com/search?q=site:recruitee.com+%22product+manager%22+%22london%22&tbs=qdr:w" },
+      { label: "Teamtailor",      url: "https://www.google.com/search?q=site:teamtailor.com+%22product+manager%22+%22london%22&tbs=qdr:w" },
+      { label: "Breezy HR",       url: "https://www.google.com/search?q=site:breezy.hr+%22product+manager%22+%22london%22&tbs=qdr:w" },
+      { label: "Workday",         url: "https://www.google.com/search?q=site:myworkdayjobs.com+%22product+manager%22+%22london%22&tbs=qdr:w" },
+      { label: "iCIMS",           url: "https://www.google.com/search?q=site:icims.com+%22product+manager%22+%22london%22&tbs=qdr:w" },
+      { label: "Personio",        url: "https://www.google.com/search?q=site:jobs.personio.com+%22product+manager%22+%22london%22&tbs=qdr:w" }
+    ];
+
+    function openAll() {
+      searches.forEach(s => window.open(s.url, '_blank'));
+      document.getElementById('status').textContent =
+        '12 tabs opened. If any were blocked, allow popups for this page and try again.';
+    }
+  </script>
+</body>
+</html>
