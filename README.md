@@ -153,6 +153,7 @@ Move the file to `done/` once the application is submitted. Move it to `not-appl
 | `not-apply-since-lower-chance/` | No | Same |
 | `session-context.md` | No | Personal session notes |
 | `.obsidian/` | No | Local app config |
+| `.claude/settings.json` | No | Contains local permission allowlist — varies per machine |
 | `work-in-progress/jobs-to-scan.md` | Yes | Queue file — no personal data |
 | `work-in-progress/[company].md` | No | JD + personalisation analysis tied to your resume |
 | `original/job-description-template.md` | Yes | Reusable template |
