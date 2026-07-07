@@ -105,7 +105,7 @@ job-search/
 ├── done/                              # GITIGNORED — move a file here when the application is sent
 │   └── failed/                        # GITIGNORED — move a file here when the application is confirmed rejected
 │
-├── not-apply-since-lower-chance/      # GITIGNORED — move a file here when the domain/experience gap is too large to bridge
+├── skipped/      # GITIGNORED — move a file here when the domain/experience gap is too large to bridge
 │
 └── .claude/
     ├── settings.json                  # Claude Code permission allowlist for this project
@@ -140,7 +140,7 @@ job-search/
    Apply  Skip
      |     |
      v     v
-  done/   not-apply-since-lower-chance/
+  done/   skipped/
      |
   (outcome known)
   ┌──┴──┐
@@ -151,7 +151,7 @@ Pass  Rejected
   done/failed/
 ```
 
-Move the file to `done/` once the application is submitted. Move it to `not-apply-since-lower-chance/` if the gap analysis shows the role is too far from the current profile for this market. When a rejection is confirmed, move the file from `done/` into `done/failed/`. All folders are gitignored.
+Move the file to `done/` once the application is submitted. Move it to `skipped/` if the gap analysis shows the role is too far from the current profile for this market. When a rejection is confirmed, move the file from `done/` into `done/failed/`. All folders are gitignored.
 
 ---
 
@@ -163,7 +163,7 @@ Move the file to `done/` once the application is submitted. Move it to `not-appl
 | `original/story-library.md` | No | Personal data |
 | `done/` | No | Contains resume analysis linked to applications sent |
 | `done/failed/` | No | Confirmed rejections — same personal data concerns |
-| `not-apply-since-lower-chance/` | No | Same |
+| `skipped/` | No | Same |
 | `session-context.md` | No | Personal session notes |
 | `.obsidian/` | No | Local app config |
 | `.claude/settings.json` | No | Contains local permission allowlist — varies per machine |
