@@ -99,14 +99,16 @@ Be direct and specific. No hedging.
 
 ### Step 5 — 3 Alternatives
 
-Every alternative must first pass these baseline requirements — if any are not met, rewrite until they are:
+Every summary (baseline and alternatives) must first pass these baseline requirements — if any are not met, rewrite until they are:
 - Uses only exact claims from `resume.md` (exact numbers, exact company names, no invention)
 - Addresses all 3 challenges from Step 1
 - Identity framing matches both the JD and Chi's actual experience
 - Forward-looking sentence is specific to this role and Chi's trajectory
 - Exactly 3 sentences: S1 identity, S2 three evidence claims from three different companies/sources (one per clause, semicolon-separated), S3 forward-looking
 
-Once the baseline is met, score each alternative out of 10 across 3 dimensions:
+Open this step by reproducing the Step 3 summary verbatim as **Option 0 — Baseline** and scoring it using the same rubric below. Then produce three alternatives. All four are scored in this step so Chi can compare them directly.
+
+Once the baseline is met, score each summary out of 10 across 3 dimensions:
 
 | Dimension | Points | What scores high | What scores low |
 |---|---|---|---|
@@ -114,7 +116,7 @@ Once the baseline is met, score each alternative out of 10 across 3 dimensions:
 | Punchiness | 4 | Strong identity opening, impact-led sentences, direct language | Weak opening, hedging language, buries the lead |
 | No-brainer clarity | 3 | Hiring team sees the fit in one read, no interpretation needed | Requires mental leaps, ambiguous framing, generic enough to fit any PM |
 
-For each alternative:
+For each summary (Option 0 through Option C):
 - Write the full summary
 - Score: [X]/10 — Conciseness [x]/3 · Punchiness [x]/4 · Clarity [x]/3
 - Explain in 1–2 sentences what drives the score up or down

@@ -78,7 +78,7 @@ For each file, Claude appends a `## Resume Personalisation` section containing:
 4. **Gaps** — specific JD requirements not evidenced in the resume, flagged explicitly
 5. **Personalised Summary** — a 3-sentence resume summary using only facts and numbers from the resume, addressing the 3 challenges
 6. **Pros and Cons** — direct feedback on the summary: what will resonate, what is weak or missing
-7. **3 Alternative Summaries** — each scored out of 10 across conciseness, punchiness, and clarity
+7. **Scored Summaries** — the Step 5 personalised summary is reproduced as Option 0 (Baseline) and scored alongside 3 alternatives; all four scored out of 10 across conciseness, punchiness, and clarity in one block for direct comparison
 8. **Fit Assessment** — Fit / Stretch / Out of Reach, with reasoning against the core JD requirements; followed by fit basis: Direct domain match / Transferable skills / Mixed — distinguishing where the domain and primary user type transfer directly versus where a mental leap is required
 9. **Application Form Answers** — drafted answers for any questions present in the file; uses `original/story-library.md` for narrative shape and context, cross-checked against `original/resume.md` for exact numbers
 
