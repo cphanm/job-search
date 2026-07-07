@@ -16,6 +16,7 @@ A personal job search system built on [Claude Code](https://claude.ai/code). Two
 1. Clone this repository
 2. Open the folder in Claude Code: `claude /path/to/job-search`
 3. Create `original/resume.md` — paste the full, unedited text of your CV here. This file is gitignored and never leaves your machine.
+4. Create `original/story-library.md` — paste your behavioral story library here. Used by `/create-resume` when drafting application form answers. Also gitignored.
 
 That's it. No environment variables, no dependencies to install.
 
@@ -71,15 +72,15 @@ Run after `/scan-jobs` has created the JD files.
 
 For each file, Claude appends a `## Resume Personalisation` section containing:
 
-1. **Company Research** — industry, customers, product, scale; fetched from the company homepage
+1. **Company Research** — industry, customers, product, scale, and primary user type (who the PM in this role builds for day-to-day); fetched from the company homepage
 2. **3 Challenges** — what the hiring team most needs the new hire to solve, grounded in the JD and company context
 3. **Relevant Experiences** — the exact resume bullets from `original/resume.md` that address each challenge; quoted verbatim with company names
 4. **Gaps** — specific JD requirements not evidenced in the resume, flagged explicitly
-5. **Personalised Summary** — a 3–4 sentence resume summary using only facts and numbers from the resume, addressing the 3 challenges
+5. **Personalised Summary** — a 3-sentence resume summary using only facts and numbers from the resume, addressing the 3 challenges
 6. **Pros and Cons** — direct feedback on the summary: what will resonate, what is weak or missing
 7. **3 Alternative Summaries** — each scored out of 10 across conciseness, punchiness, and clarity
-8. **Fit Assessment** — Fit / Stretch / Out of Reach, with reasoning against the core JD requirements
-9. **Application Form Answers** — drafted answers for any questions present in the file, grounded in resume evidence
+8. **Fit Assessment** — Fit / Stretch / Out of Reach, with reasoning against the core JD requirements; followed by fit basis: Direct domain match / Transferable skills / Mixed — distinguishing where the domain and primary user type transfer directly versus where a mental leap is required
+9. **Application Form Answers** — drafted answers for any questions present in the file; uses `original/story-library.md` for narrative shape and context, cross-checked against `original/resume.md` for exact numbers
 
 ---
 
@@ -94,6 +95,7 @@ job-search/
 │
 ├── original/                          # read-only source files
 │   ├── resume.md                      # your CV — GITIGNORED, never committed
+│   ├── story-library.md               # behavioral story library — GITIGNORED, never committed
 │   └── job-description-template.md   # template structure for JD files
 │
 ├── work-in-progress/                  # active pipeline
@@ -101,6 +103,7 @@ job-search/
 │   └── [company].md                   # one file per role; created by /scan-jobs, filled by /create-resume
 │
 ├── done/                              # GITIGNORED — move a file here when the application is sent
+│   └── failed/                        # GITIGNORED — move a file here when the application is confirmed rejected
 │
 ├── not-apply-since-lower-chance/      # GITIGNORED — move a file here when the domain/experience gap is too large to bridge
 │
@@ -138,9 +141,17 @@ job-search/
      |     |
      v     v
   done/   not-apply-since-lower-chance/
+     |
+  (outcome known)
+  ┌──┴──┐
+  |     |
+Pass  Rejected
+        |
+        v
+  done/failed/
 ```
 
-Move the file to `done/` once the application is submitted. Move it to `not-apply-since-lower-chance/` if the gap analysis shows the role is too far from the current profile for this market. Both folders are gitignored.
+Move the file to `done/` once the application is submitted. Move it to `not-apply-since-lower-chance/` if the gap analysis shows the role is too far from the current profile for this market. When a rejection is confirmed, move the file from `done/` into `done/failed/`. All folders are gitignored.
 
 ---
 
@@ -149,7 +160,9 @@ Move the file to `done/` once the application is submitted. Move it to `not-appl
 | File / Folder | Committed | Reason |
 |---|---|---|
 | `original/resume.md` | No | Personal data |
+| `original/story-library.md` | No | Personal data |
 | `done/` | No | Contains resume analysis linked to applications sent |
+| `done/failed/` | No | Confirmed rejections — same personal data concerns |
 | `not-apply-since-lower-chance/` | No | Same |
 | `session-context.md` | No | Personal session notes |
 | `.obsidian/` | No | Local app config |

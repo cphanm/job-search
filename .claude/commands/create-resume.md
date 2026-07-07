@@ -33,6 +33,7 @@ Fetch the homepage URL. From the fetched content, extract:
 - **Target customers** — who they sell to (e.g. enterprise security teams, SMB, developers, legal firms)
 - **Product** — what the product does in plain terms
 - **Scale/stage** — size, growth stage, or any signals about their customer base
+- **Primary user type** — who the PM in this role will be building for primarily (e.g. developers, enterprise ops teams, consumer end users, internal teams, compliance officers); this is not the same as target customers — it is the specific user audience the PM owns day-to-day
 
 Store this as a **Company Research** section in the output before Step 1. If a URL fails to load or returns no useful content, note it and continue — do not block on it.
 
@@ -74,13 +75,14 @@ After matching challenges to resume bullets, add a **Gaps to flag** section: lis
 
 ### Step 3 — Personalised Summary
 
-Write a resume summary (3–4 sentences maximum) that:
-- Opens with a one-line identity statement (not "I'm a product manager who...") — frame Chi's specific positioning relevant to this role, e.g. "Platform Product Manager (9+ years) building X that delivers Y"
-- Names specific companies from the resume
+Write a resume summary of exactly 3 sentences:
+- **Sentence 1 — Identity**: A one-line statement framing Chi's specific positioning for this role. Not "I'm a product manager who..." — name the domain, customer type, or angle that matters for this JD. No tenure in parentheses.
+- **Sentence 2 — Evidence**: Exactly three claims, each from a different company or source, separated by semicolons. Exact numbers and exact company names as written in the resume. One claim per clause — do not stack multiple outcomes from the same company into one clause.
+- **Sentence 3 — Forward-looking**: One sentence specific to this role and this company's actual problem. Must mirror the company's language or stated challenge — not generic phrases like "seeking a new challenge."
+
+Rules:
 - Uses exact numbers and impacts as written in the resume (no rounding, no combining, no interpreting)
-- Directly speaks to the 3 challenges from Step 1
 - Only includes claims supported by a bullet point in `resume.md` — if a gap was flagged in Step 2, do not include it here; Chi will decide whether to add it
-- Ends with one forward-looking sentence stating what Chi is looking for next — specific to this role, derived from Chi's career trajectory; avoid generic phrases like "seeking a new challenge"
 
 ---
 
@@ -102,6 +104,7 @@ Every alternative must first pass these baseline requirements — if any are not
 - Addresses all 3 challenges from Step 1
 - Identity framing matches both the JD and Chi's actual experience
 - Forward-looking sentence is specific to this role and Chi's trajectory
+- Exactly 3 sentences: S1 identity, S2 three evidence claims from three different companies/sources (one per clause, semicolon-separated), S3 forward-looking
 
 Once the baseline is met, score each alternative out of 10 across 3 dimensions:
 
@@ -124,6 +127,11 @@ First, distinguish between **core requirements** (stated as must-have, or repeat
 
 State clearly on the first line: **Fit** / **Stretch** / **Out of Reach**
 
+Then state the fit basis on the second line: **Direct domain match** / **Transferable skills** / **Mixed**
+- **Direct domain match** — the domain and primary user type both transfer directly from Chi's background; no mental leap required from the hiring team
+- **Transferable skills** — the skills apply but require a mental leap on domain, primary user type, or both; the bridge is visible but not obvious
+- **Mixed** — some requirements are a direct match, others rely on transferable skills; identify which is which
+
 | Rating | Criteria |
 |---|---|
 | **Fit** | Meets all core requirements with direct resume evidence; domain overlap is direct not adjacent; experience level matches or exceeds |
@@ -138,6 +146,8 @@ Then explain the reasoning in 3–5 bullet points, comparing Chi's actual backgr
 
 Check the job description file for an "Application Form Questions" section. If it is empty or absent, skip this step entirely.
 
+**Before drafting any answer:** Read `original/story-library.md` in full. It contains Chi's full behavioral story library (S1–S14 and supplementary stories) with strategic framing, narrative shape, tactics, and context that resume.md does not have. Use story-library.md to find the best story fit for each question, then cross-check exact numbers against resume.md before writing. Do not draft answers from resume.md alone.
+
 For each question present, produce two things:
 
 **A — Relevant bullets**
@@ -147,7 +157,7 @@ List the resume bullets from `resume.md` that best answer this question. Cite ex
 Write a complete answer in first person as Chi. Rules:
 - Ground every claim in a resume bullet — exact numbers, exact company names, no invention
 - Be concise: answer the question directly, do not pad
-- If the question is behavioural ("tell me about a time when..."), structure the answer as: situation → what Chi did → the measurable outcome
+- If the question is behavioural ("tell me about a time when..."), structure the answer as: situation → what Chi did → the measurable outcome. Use the story-library.md version of the story as the narrative spine — it has the strategic framing and action detail that resume.md bullet points compress away
 - If a gap was flagged in A, do not include it in the drafted answer — note at the end that Chi may want to add it if the experience is real
 - **Match the example's market segment to the company's GTM model.** If the company is sales-led and enterprise, use examples from Bandwidth, Vable, or Pearson — not Legalzoom (PLG, SMB). Using an SMB/PLG example for a sales-led enterprise company signals the wrong GTM mental model to the hiring manager, even if the mechanics are similar.
 - **Match the example's shape to the question's shape.** A question about "stopping" a low-value item needs an example where something was stopped or clearly deprioritised — not deferred or rescoped. A question about "moving the needle commercially" needs a commercial product outcome — not an internal operations improvement. If the best available example is a partial match, flag the mismatch and note it before drafting.
