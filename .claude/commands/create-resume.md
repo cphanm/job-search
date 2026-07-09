@@ -172,6 +172,7 @@ List the resume bullets from `resume.md` that best answer this question. Cite ex
 
 **B — Drafted answer**
 Write a complete answer in first person as Chi. Rules:
+- **Under 300 words.** Count and confirm before writing. Cut until every sentence earns its place.
 - Ground every claim in a resume bullet — exact numbers, exact company names, no invention
 - Be concise: answer the question directly, do not pad
 - If the question is behavioural ("tell me about a time when..."), structure the answer as: situation → what Chi did → the measurable outcome. Use the story-library.md version of the story as the narrative spine — it has the strategic framing and action detail that resume.md bullet points compress away
