@@ -30,6 +30,7 @@ Homepage: https://...
 
 Fetch the homepage URL. From the fetched content, extract:
 - **Industry** — what sector the company operates in
+- **Business model** — B2B, B2B2C, B2C, or marketplace; identify who pays and who uses the product; if mixed, say which is primary
 - **Target customers** — who they sell to (e.g. enterprise security teams, SMB, developers, legal firms)
 - **Product** — what the product does in plain terms
 - **Scale/stage** — size, growth stage, or any signals about their customer base
@@ -125,7 +126,21 @@ For each summary (Option 0 through Option C):
 
 ### Step 6 — Fit Assessment
 
-First, distinguish between **core requirements** (stated as must-have, or repeated across multiple JD sections) and **preferred requirements** (labelled "bonus," "ideally," or listed last). Apply the rating to core requirements only.
+First, run a two-step business model check:
+
+**Step A — What does the PM in this role actually build for?**
+Look at the responsibilities and primary user type from Phase 0, not the company's overall label. Determine which of these applies:
+- The PM owns a product built for **business customers or internal users** (e.g. enterprise SaaS, internal tooling, developer platform, B2B workflows) → no business model gap
+- The PM owns a product built for **consumers or marketplace participants** (e.g. consumer-facing features, acquisition funnels, end-user growth, buyer/seller dynamics) → business model gap
+
+**Step B — State the verdict on its own line before the rating:**
+- `Business model: B2B — no gap` / `B2B2C — no gap` / `B2C — gap` / `Marketplace — gap`
+- If the company has a mixed model, identify which side the PM role sits on and state it explicitly: e.g. `Business model: Company is B2B2C; PM role owns the B2B merchant side — no gap` or `Business model: Company is B2B2C; PM role owns the consumer-facing side — gap`
+
+**Step C — Apply the gap:**
+If a gap is identified, downgrade the rating by one level: Fit → Stretch, Stretch → Out of Reach.
+
+Then, distinguish between **core requirements** (stated as must-have, or repeated across multiple JD sections) and **preferred requirements** (labelled "bonus," "ideally," or listed last). Apply the rating to core requirements only.
 
 State clearly on the first line: **Fit** / **Stretch** / **Out of Reach**
 
@@ -136,9 +151,9 @@ Then state the fit basis on the second line: **Direct domain match** / **Transfe
 
 | Rating | Criteria |
 |---|---|
-| **Fit** | Meets all core requirements with direct resume evidence; domain overlap is direct not adjacent; experience level matches or exceeds |
-| **Stretch** | Meets most core requirements (at least 2 of 3); domain is adjacent and the bridge is visible to a hiring team; gaps exist but are learnable; Chi has cleared at least recruiter stage in similar roles |
-| **Out of Reach** | Missing one or more core requirements that cannot be bridged by transferable skills; domain gap is too wide; JD requires specific credentials or background with no equivalent in Chi's resume |
+| **Fit** | Meets all core requirements with direct resume evidence; domain overlap is direct not adjacent; experience level matches or exceeds; business model is B2B or B2B2C |
+| **Stretch** | Meets most core requirements (at least 2 of 3); domain is adjacent and the bridge is visible to a hiring team; gaps exist but are learnable; Chi has cleared at least recruiter stage in similar roles; no B2C or marketplace business model gap |
+| **Out of Reach** | Missing one or more core requirements that cannot be bridged by transferable skills; domain gap is too wide; JD requires specific credentials or background with no equivalent in Chi's resume; OR business model is primarily B2C or marketplace |
 
 Then explain the reasoning in 3–5 bullet points, comparing Chi's actual background against the core requirements of this role. Base this only on what is in the resume — do not assume experience that is not evidenced.
 

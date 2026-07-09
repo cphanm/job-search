@@ -79,7 +79,7 @@ For each file, Claude appends a `## Resume Personalisation` section containing:
 5. **Personalised Summary** — a 3-sentence resume summary using only facts and numbers from the resume, addressing the 3 challenges
 6. **Pros and Cons** — direct feedback on the summary: what will resonate, what is weak or missing
 7. **Scored Summaries** — the Step 5 personalised summary is reproduced as Option 0 (Baseline) and scored alongside 3 alternatives; all four scored out of 10 across conciseness, punchiness, and clarity in one block for direct comparison
-8. **Fit Assessment** — Fit / Stretch / Out of Reach, with reasoning against the core JD requirements; followed by fit basis: Direct domain match / Transferable skills / Mixed — distinguishing where the domain and primary user type transfer directly versus where a mental leap is required
+8. **Fit Assessment** — opens with a business model check: identifies what the PM in the role actually builds for (business customers = no gap; consumers or marketplace = gap; for mixed-model companies, states explicitly which side the role sits on and whether that creates a gap); then issues Fit / Stretch / Out of Reach with reasoning against the core JD requirements; followed by fit basis: whether the domain and primary user type transfer directly or require a mental leap
 9. **Application Form Answers** — drafted answers for any questions present in the file; uses `original/story-library.md` for narrative shape and context, cross-checked against `original/resume.md` for exact numbers
 
 ---
