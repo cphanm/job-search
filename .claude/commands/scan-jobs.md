@@ -2,7 +2,7 @@ Follow these steps exactly when this command is invoked.
 
 ## Purpose
 
-Read `work-in-progress/jobs-to-scan.md`, fetch each job posting URL, create one markdown file per job in `work-in-progress/` following the `original/job-description-template.md` structure, and auto-detect the company homepage.
+Read `work-in-progress/jobs-to-scan.md`, fetch each job posting URL, create one markdown file per job in `work-in-progress/` following the `input/job-description-template.md` structure, and auto-detect the company homepage.
 
 ---
 
@@ -10,7 +10,7 @@ Read `work-in-progress/jobs-to-scan.md`, fetch each job posting URL, create one 
 
 1. Read `work-in-progress/jobs-to-scan.md`
 2. Collect all URLs listed under `## To Scan` (one per line, skip blank lines and comments)
-3. Read `original/job-description-template.md` to get the file structure
+3. Read `input/job-description-template.md` to get the file structure
 4. If no URLs are found under `## To Scan`, stop and tell the user the list is empty.
 
 ---

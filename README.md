@@ -15,8 +15,8 @@ A personal job search system built on [Claude Code](https://claude.ai/code). Fiv
 
 1. Clone this repository
 2. Open the folder in Claude Code: `claude /path/to/job-search`
-3. Create `original/resume.md` — paste the full, unedited text of your CV here. This file is gitignored and never leaves your machine.
-4. Create `original/story-library.md` — paste your behavioral story library here. Used by `/create-resume` when drafting application form answers. Also gitignored.
+3. Create `input/resume.md` — paste the full, unedited text of your CV here. This file is gitignored and never leaves your machine.
+4. Create `input/story-library.md` — paste your behavioral story library here. Used by `/create-resume` when drafting application form answers. Also gitignored.
 
 That's it. No environment variables, no dependencies to install.
 
@@ -74,13 +74,13 @@ For each file, Claude appends a `## Resume Personalisation` section containing:
 
 1. **Company Research** — industry, customers, product, scale, and primary user type (who the PM in this role builds for day-to-day); fetched from the company homepage
 2. **3 Challenges** — what the hiring team most needs the new hire to solve, grounded in the JD and company context
-3. **Relevant Experiences** — the exact resume bullets from `original/resume.md` that address each challenge; quoted verbatim with company names
+3. **Relevant Experiences** — the exact resume bullets from `input/resume.md` that address each challenge; quoted verbatim with company names
 4. **Gaps** — specific JD requirements not evidenced in the resume, flagged explicitly
 5. **Personalised Summary** — a 3-sentence resume summary using only facts and numbers from the resume, addressing the 3 challenges
 6. **Pros and Cons** — direct feedback on the summary: what will resonate, what is weak or missing
 7. **Scored Summaries** — the Step 5 personalised summary is reproduced as Option 0 (Baseline) and scored alongside 3 alternatives; all four scored out of 10 across conciseness, punchiness, and clarity in one block for direct comparison
 8. **Fit Assessment** — opens with a business model check: identifies what the PM in the role actually builds for (business customers = no gap; consumers or marketplace = gap; for mixed-model companies, states explicitly which side the role sits on and whether that creates a gap); then issues Fit / Stretch / Out of Reach with reasoning against the core JD requirements; followed by fit basis: whether the domain and primary user type transfer directly or require a mental leap
-9. **Application Form Answers** — drafted answers for any questions present in the file; uses `original/story-library.md` for narrative shape and context, cross-checked against `original/resume.md` for exact numbers; each answer capped at 300 words
+9. **Application Form Answers** — drafted answers for any questions present in the file; uses `input/story-library.md` for narrative shape and context, cross-checked against `input/resume.md` for exact numbers; each answer capped at 300 words
 
 ---
 
@@ -126,7 +126,7 @@ job-search/
 ├── job-search-launcher.html           # one-click browser launcher for 12 ATS searches
 ├── job-search-queries.md              # the same 12 searches as Markdown links
 │
-├── original/                          # read-only source files
+├── input/                             # read-only source files
 │   ├── resume.md                      # your CV — GITIGNORED, never committed
 │   ├── story-library.md               # behavioral story library — GITIGNORED, never committed
 │   └── job-description-template.md   # template structure for JD files
@@ -219,8 +219,8 @@ Move the file to `done/` once the application is submitted. Move it to `skipped/
 
 | File / Folder | Committed | Reason |
 |---|---|---|
-| `original/resume.md` | No | Personal data |
-| `original/story-library.md` | No | Personal data |
+| `input/resume.md` | No | Personal data |
+| `input/story-library.md` | No | Personal data |
 | `done/` | No | Contains resume analysis linked to applications sent |
 | `done/failed/` | No | Confirmed rejections — same personal data concerns |
 | `skipped/` | No | Same |
@@ -229,7 +229,7 @@ Move the file to `done/` once the application is submitted. Move it to `skipped/
 | `.claude/settings.json` | No | Contains local permission allowlist — varies per machine |
 | `work-in-progress/jobs-to-scan.md` | Yes | Queue file — no personal data |
 | `work-in-progress/[company].md` | No | JD + personalisation analysis tied to your resume |
-| `original/job-description-template.md` | Yes | Reusable template |
+| `input/job-description-template.md` | Yes | Reusable template |
 | `job-search-launcher.html` | Yes | Generic search tool |
 | `job-search-queries.md` | Yes | Generic search links |
 | `.claude/commands/` | Yes | Reusable slash commands |
@@ -242,5 +242,5 @@ Move the file to `done/` once the application is submitted. Move it to `skipped/
 To adapt this for a different job title, location, or ATS platform:
 
 - **Search queries:** edit `job-search-queries.md` and `job-search-launcher.html` — replace `"product+manager"` and `"london"` with the target role and location
-- **Resume:** replace the contents of `original/resume.md` with the new CV
+- **Resume:** replace the contents of `input/resume.md` with the new CV
 - **ATS support:** to add a new ATS, update the fetch logic in `.claude/commands/scan-jobs.md` under Step 2

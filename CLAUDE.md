@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Structure
 
-- `original/` — read-only source files; contains `resume.md` (professional CV) and `job-description-template.md` (template to duplicate for new JD files); do not edit any file in this folder.
+- `input/` — read-only source files; contains `resume.md` (professional CV) and `job-description-template.md` (template to duplicate for new JD files); do not edit any file in this folder.
 - `job-description` - job description.
 - `.obsidian/` — Obsidian app configuration (appearance, plugins, workspace state); do not edit these files manually.
 

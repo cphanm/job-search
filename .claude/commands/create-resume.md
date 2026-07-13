@@ -2,7 +2,7 @@ Follow these steps exactly when this command is invoked.
 
 ## Setup
 
-1. Read `original/resume.md` in full before doing anything else. This is mandatory.
+1. Read `input/resume.md` in full before doing anything else. This is mandatory.
 2. Treat every bullet point as a self-contained impact. The number in one bullet point belongs only to that bullet point — never combine, transfer, or reinterpret numbers across bullet points or activities.
 3. Identify which files to process:
    - If an argument is provided (e.g. `/create-resume filename.md`), process only that file in `work-in-progress/`
@@ -163,7 +163,7 @@ Then explain the reasoning in 3–5 bullet points, comparing the user's actual b
 
 Check the job description file for an "Application Form Questions" section. If it is empty or absent, skip this step entirely.
 
-**Before drafting any answer:** Read `original/story-library.md` in full. It contains the user's full behavioral story library (S1–S14 and supplementary stories) with strategic framing, narrative shape, tactics, and context that resume.md does not have. Use story-library.md to find the best story fit for each question, then cross-check exact numbers against resume.md before writing. Do not draft answers from resume.md alone.
+**Before drafting any answer:** Read `input/story-library.md` in full. It contains the user's full behavioral story library (S1–S14 and supplementary stories) with strategic framing, narrative shape, tactics, and context that resume.md does not have. Use story-library.md to find the best story fit for each question, then cross-check exact numbers against resume.md before writing. Do not draft answers from resume.md alone.
 
 For each question present, produce two things:
 
