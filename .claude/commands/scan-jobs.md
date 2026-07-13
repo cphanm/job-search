@@ -11,7 +11,7 @@ Read `work-in-progress/jobs-to-scan.md`, fetch each job posting URL, create one 
 1. Read `work-in-progress/jobs-to-scan.md`
 2. Collect all URLs listed under `## To Scan` (one per line, skip blank lines and comments)
 3. Read `original/job-description-template.md` to get the file structure
-4. If no URLs are found under `## To Scan`, stop and tell Chi the list is empty.
+4. If no URLs are found under `## To Scan`, stop and tell the user the list is empty.
 
 ---
 
@@ -193,7 +193,7 @@ If a URL failed to fetch, move it to a `## Failed` section with a short note on 
 
 ---
 
-## Step 7 — Report to Chi
+## Step 7 — Report to the user
 
 List each file created:
 - Filename
@@ -201,4 +201,4 @@ List each file created:
 - Homepage found or not found
 - Any failures or notes
 
-Then ask Chi to review the files and run `/create-resume` when ready.
+Then ask the user to review the files and run `/create-resume` when ready.
