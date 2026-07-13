@@ -1,6 +1,6 @@
 # Job Search — Claude Code Workflow
 
-A personal job search system built on [Claude Code](https://claude.ai/code). Two slash commands handle the full pipeline: finding jobs, fetching job descriptions, matching against a resume, and generating personalised resume summaries and application answers — one role at a time.
+A personal job search system built on [Claude Code](https://claude.ai/code). Five slash commands handle the full pipeline: finding jobs, fetching job descriptions, matching against a resume, generating personalised resume summaries and application answers, and managing the interview pipeline from recruiter call through to hiring manager interview.
 
 ---
 
@@ -84,6 +84,39 @@ For each file, Claude appends a `## Resume Personalisation` section containing:
 
 ---
 
+### `/prepare-recruiter acme` — Prepare for a recruiter call
+
+Run before a recruiter call. Reads the existing analysis from `/create-resume` and appends a `## Recruiter Call Brief` section containing:
+
+1. **What to lead with** — 3–4 bullet points ordered by JD priority, grounded in specific resume evidence
+2. **3 Questions to ask** — recruiter-appropriate questions (team structure, why the role is open, screening priorities), each with a one-line rationale
+3. **Gaps and how to handle them** — each real gap from the fit assessment with a suggested handling strategy: reframe, acknowledge and bridge, or do not volunteer
+4. **Why this role** — one sentence capturing specific motivation, mirroring the company's language
+
+Requires `/create-resume` to have been run first on the same file.
+
+---
+
+### `/thank-recruiter acme` — Send a thank you after a recruiter call
+
+Run after a recruiter call. Prompts for context about what was discussed, then appends a `## Recruiter Call` section containing:
+
+1. **Call notes** — structured summary of topics covered, recruiter's stated priorities, and anything unexpected
+2. **JD mapping** — how what was discussed maps to the JD's essential criteria; flags any criteria not yet covered as worth raising in the HM stage
+3. **Thank you email** — short draft (3 paragraphs max) that references the actual conversation and echoes the recruiter's stated priorities back with specific evidence
+
+---
+
+### `/thank-hm acme` — Send a thank you after a hiring manager interview
+
+Run after an HM interview. Prompts for context, then appends a `## HM Interview` section containing:
+
+1. **Interview notes** — questions asked, examples given, what the HM emphasised, anything unexpected, and any follow-up materials offered
+2. **JD mapping** — how what was discussed maps to the essential criteria; flags any gaps not yet addressed
+3. **Thank you email** — more substantive than the recruiter email (3–4 paragraphs); reflects the HM's specific priorities and language; references any follow-up materials if offered
+
+---
+
 ## File Structure
 
 ```
@@ -111,7 +144,10 @@ job-search/
     ├── settings.json                  # Claude Code permission allowlist for this project
     └── commands/
         ├── scan-jobs.md               # /scan-jobs command definition
-        └── create-resume.md           # /create-resume command definition
+        ├── create-resume.md           # /create-resume command definition
+        ├── prepare-recruiter.md       # /prepare-recruiter command definition
+        ├── thank-recruiter.md         # /thank-recruiter command definition
+        └── thank-hm.md                # /thank-hm command definition
 ```
 
 ---
@@ -142,7 +178,31 @@ job-search/
      v     v
   done/   skipped/
      |
-  (outcome known)
+6. Recruiter call
+     |
+     ├── Before     /prepare-recruiter [company]
+     |              → what to lead with, questions to ask, gap handling, why this role
+     |
+     └── After      /thank-recruiter [company]
+                    → prompts for call context, generates call notes, JD mapping, thank you email
+        |
+        v
+   Recruiter outcome
+  ┌──┴──┐
+  |     |
+Pass  Rejected
+  |     |
+  |     v
+  |  done/failed/
+  |
+  v
+7. HM interview
+     |
+     └── After      /thank-hm [company]
+                    → prompts for interview context, generates interview notes, JD mapping, thank you email
+        |
+        v
+8. Outcome
   ┌──┴──┐
   |     |
 Pass  Rejected
