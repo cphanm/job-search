@@ -217,23 +217,23 @@ Move the file to `done/` once the application is submitted. Move it to `skipped/
 
 ## What Is and Is Not Committed
 
-| File / Folder | Committed | Reason |
-|---|---|---|
-| `input/resume.md` | No | Personal data |
-| `input/story-library.md` | No | Personal data |
-| `done/` | No | Contains resume analysis linked to applications sent |
-| `done/failed/` | No | Confirmed rejections — same personal data concerns |
-| `skipped/` | No | Same |
-| `session-context.md` | No | Personal session notes |
-| `.obsidian/` | No | Local app config |
-| `.claude/settings.json` | No | Contains local permission allowlist — varies per machine |
-| `work-in-progress/jobs-to-scan.md` | Yes | Queue file — no personal data |
-| `work-in-progress/[company].md` | No | JD + personalisation analysis tied to your resume |
-| `input/job-description-template.md` | Yes | Reusable template |
-| `job-search-launcher.html` | Yes | Generic search tool |
-| `job-search-queries.md` | Yes | Generic search links |
-| `.claude/commands/` | Yes | Reusable slash commands |
-| `CLAUDE.md` | Yes | Project instructions |
+| File / Folder                       | Committed | Reason                                                   |
+| ----------------------------------- | --------- | -------------------------------------------------------- |
+| `input/resume.md`                   | No        | Personal data                                            |
+| `input/story-library.md`            | No        | Personal data                                            |
+| `done/`                             | No        | Contains resume analysis linked to applications sent     |
+| `done/failed/`                      | No        | Confirmed rejections — same personal data concerns       |
+| `skipped/`                          | No        | Same                                                     |
+| `session-context.md`                | No        | Personal session notes                                   |
+| `.obsidian/`                        | No        | Local app config                                         |
+| `.claude/settings.json`             | No        | Contains local permission allowlist — varies per machine |
+| `work-in-progress/jobs-to-scan.md`  | Yes       | Queue file — no personal data                            |
+| `work-in-progress/[company].md`     | No        | JD + personalisation analysis tied to your resume        |
+| `input/job-description-template.md` | Yes       | Reusable template                                        |
+| `job-search-launcher.html`          | Yes       | Generic search tool                                      |
+| `job-search-queries.md`             | Yes       | Generic search links                                     |
+| `.claude/commands/`                 | Yes       | Reusable slash commands                                  |
+| `CLAUDE.md`                         | Yes       | Project instructions                                     |
 
 ---
 
