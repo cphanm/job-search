@@ -77,9 +77,9 @@ After matching challenges to resume bullets, add a **Gaps to flag** section: lis
 ### Step 3 — Personalised Summary
 
 Write a resume summary of exactly 3 sentences:
-- **Sentence 1 — Identity**: A one-line statement framing the user's specific positioning for this role. Not "I'm a product manager who..." — name the domain, customer type, or angle that matters for this JD. No tenure in parentheses.
+- **Sentence 1 — Identity**: A one-line statement framing the user's specific positioning for this role. Not "I'm a product manager who..." — name the domain, customer type, or angle that matters for this JD.
 - **Sentence 2 — Evidence**: Exactly three claims, each from a different company or source, separated by semicolons. Exact numbers and exact company names as written in the resume. One claim per clause — do not stack multiple outcomes from the same company into one clause.
-- **Sentence 3 — Forward-looking**: One sentence specific to this role and this company's actual problem. Must mirror the company's language or stated challenge — not generic phrases like "seeking a new challenge."
+- **Sentence 3 — Forward-looking**: One sentence specific to this role and this company's actual problem. Must mirror the company's language or stated challenge — not generic phrases like "seeking a new challenge." Always start with "Looking to" — never "Joining"; the user is applying, not starting.
 
 Rules:
 - Uses exact numbers and impacts as written in the resume (no rounding, no combining, no interpreting)
