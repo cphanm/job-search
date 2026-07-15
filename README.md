@@ -1,6 +1,6 @@
 # Job Search — Claude Code Workflow
 
-A personal job search system built on [Claude Code](https://claude.ai/code). Five slash commands handle the full pipeline: finding jobs, fetching job descriptions, matching against a resume, generating personalised resume summaries and application answers, and managing the interview pipeline from recruiter call through to hiring manager interview.
+A personal job search system built on [Claude Code](https://claude.ai/code). Six slash commands handle the full pipeline: guided setup, finding jobs, fetching job descriptions, matching against a resume, generating personalised resume summaries and application answers, and managing the interview pipeline from recruiter call through to hiring manager interview.
 
 ---
 
@@ -15,10 +15,15 @@ A personal job search system built on [Claude Code](https://claude.ai/code). Fiv
 
 1. Clone this repository
 2. Open the folder in Claude Code: `claude /path/to/job-search`
-3. Create `input/resume.md` — paste the full, unedited text of your CV here. This file is gitignored and never leaves your machine.
-4. Create `input/story-library.md` — paste your behavioral story library here. Used by `/create-resume` when drafting application form answers. Also gitignored.
+3. Run `/setup` and follow the prompts — it walks through capturing your resume, optionally your behavioral story library, and building your `positioning/` files (see below) through a short back-and-forth review, not a single-shot output. Safe to re-run later, e.g. after updating your resume.
 
 That's it. No environment variables, no dependencies to install.
+
+**What `/setup` creates, manually if you'd rather skip the guided version:**
+- `input/resume.md` — paste the full, unedited text of your CV here. Gitignored, never leaves your machine.
+- `input/story-library.md` — paste your behavioral story library here. Used only by `/create-resume` Step 7 when drafting application form answers, since resume bullets are often too compressed to carry a full behavioral story. Also gitignored.
+- `positioning/differentiators.md` — the 1–3 patterns in your resume that make you stand out, not just qualified (e.g. a skill combination that shows up across multiple roles/eras). Derived from `input/resume.md` alone, never the story library — this is what a recruiter or hiring panel actually sees. `/create-resume` checks this before flagging a gap and when deciding what to surface as a differentiator. Gitignored — this isn't raw input, it's a conclusion about your input, which is why it lives in its own folder rather than `input/`.
+- `positioning/career-narrative.md` — the fuller evidence behind `differentiators.md`: recurring problems solved, decisions you personally owned, the trade-offs resume.md actually states, and what would make a hiring panel trust you with a roadmap. Also gitignored.
 
 ---
 
@@ -37,6 +42,16 @@ The same 12 searches as clickable Markdown links, organised by ATS tier (Startup
 ---
 
 ## Commands
+
+### `/setup` — Guided first-time setup
+
+Run once when starting fresh, and safe to re-run later (e.g. after updating your resume — it skips anything already in place unless you ask it to redo a step).
+
+1. Checks what already exists across `input/` and `positioning/`
+2. Prompts you to create `input/resume.md` (you paste your CV — Claude never writes this file)
+3. Prompts you to create `input/story-library.md`, with a clear explanation of what it's actually for (Step 7 application answers only — see `/create-resume` below) so you can decide whether to invest time in it now
+4. Reads `input/resume.md` alone (never the story library — positioning reflects what a recruiter sees, not the fuller narrative behind it), proposes 3–5 candidate recurring patterns with evidence, and asks you to sort them into genuine differentiators vs. table-stakes competency — expect a few rounds of back-and-forth, not a single-shot answer
+5. Writes `positioning/differentiators.md` and `positioning/career-narrative.md` once you've confirmed the split, and shows you both for review
 
 ### `/scan-jobs` — Fetch job descriptions
 
@@ -73,13 +88,13 @@ Run after `/scan-jobs` has created the JD files.
 For each file, Claude appends a `## Resume Personalisation` section containing:
 
 1. **Company Research** — industry, customers, product, scale, and primary user type (who the PM in this role builds for day-to-day); fetched from the company homepage
-2. **3 Challenges** — what the hiring team most needs the new hire to solve, grounded in the JD and company context
-3. **Relevant Experiences** — the exact resume bullets from `input/resume.md` that address each challenge; quoted verbatim with company names
-4. **Gaps** — specific JD requirements not evidenced in the resume, flagged explicitly
-5. **Personalised Summary** — a 3-sentence resume summary using only facts and numbers from the resume, addressing the 3 challenges
-6. **Pros and Cons** — direct feedback on the summary: what will resonate, what is weak or missing
-7. **Scored Summaries** — the Step 5 personalised summary is reproduced as Option 0 (Baseline) and scored alongside 3 alternatives; all four scored out of 10 across conciseness, punchiness, and clarity in one block for direct comparison
-8. **Fit Assessment** — opens with a business model check: identifies what the PM in the role actually builds for (business customers = no gap; consumers or marketplace = gap; for mixed-model companies, states explicitly which side the role sits on and whether that creates a gap); then issues Fit / Stretch / Out of Reach with reasoning against the core JD requirements; followed by fit basis: whether the domain and primary user type transfer directly or require a mental leap
+2. **3 Challenges** — what the hiring team most needs the new hire to solve, grounded in the whole JD (including nice-to-have/bonus lines, not just the must-have section) and company context
+3. **Relevant Experiences** — the exact resume bullets from `input/resume.md` that address each challenge; quoted verbatim with company names; checked against `positioning/differentiators.md` first so a real match isn't undercounted just because it's an older or less obvious bullet
+4. **Gaps** — specific JD requirements not evidenced in the resume, flagged explicitly and tagged as core/must-have or preferred/nice-to-have; multi-option requirements ("a few of the following") are checked against their actual threshold, not full list coverage
+5. **Personalised Summary** — a 3-sentence resume summary using only facts and numbers from the resume; each of the 3 evidence claims maps 1:1 to one of the 3 challenges, one per company
+6. **Pros and Cons** — direct feedback on the summary: what will resonate, what is weak or missing; met and unmet preferred/nice-to-have requirements are named explicitly here as differentiators or risks, not left implicit
+7. **Scored Summaries** — the Step 5 personalised summary is reproduced as Option 0 (Baseline) and scored alongside 3 alternatives; all four scored out of 10 across conciseness, punchiness, and clarity in one block for direct comparison; each alternative must score at least 8.5 — if not, it's revised once and rescored, with an explicit note if it's still below 8.5 after that
+8. **Fit Assessment** — opens with a business model check: identifies what the PM in the role actually builds for (business customers = no gap; consumers or marketplace = gap; for mixed-model companies, states explicitly which side the role sits on and whether that creates a gap); then issues Fit / Stretch / Out of Reach against core requirements, with preferred/nice-to-have requirements factored in as a bonus — an unmet requirement that's the JD's named standout differentiator (or repeated/emphasized elsewhere) can still trigger a one-level downgrade even though it isn't formally core; followed by fit basis: whether the domain and primary user type transfer directly or require a mental leap
 9. **Application Form Answers** — drafted answers for any questions present in the file; uses `input/story-library.md` for narrative shape and context, cross-checked against `input/resume.md` for exact numbers; each answer capped at 300 words
 
 ---
@@ -131,6 +146,10 @@ job-search/
 │   ├── story-library.md               # behavioral story library — GITIGNORED, never committed
 │   └── job-description-template.md   # template structure for JD files
 │
+├── positioning/                       # GITIGNORED — derived from input/, not raw input itself
+│   ├── differentiators.md             # (optional) the 1-3 patterns that make you stand out, not just qualified
+│   └── career-narrative.md            # (optional) fuller evidence behind differentiators.md — problems, decisions, trade-offs, trust signals
+│
 ├── work-in-progress/                  # active pipeline
 │   ├── jobs-to-scan.md                # queue: add URLs here before running /scan-jobs
 │   └── [company].md                   # one file per role; created by /scan-jobs, filled by /create-resume
@@ -143,6 +162,7 @@ job-search/
 └── .claude/
     ├── settings.json                  # Claude Code permission allowlist for this project
     └── commands/
+        ├── setup.md                   # /setup command definition
         ├── scan-jobs.md               # /scan-jobs command definition
         ├── create-resume.md           # /create-resume command definition
         ├── prepare-recruiter.md       # /prepare-recruiter command definition
@@ -221,6 +241,8 @@ Move the file to `done/` once the application is submitted. Move it to `skipped/
 | ----------------------------------- | --------- | -------------------------------------------------------- |
 | `input/resume.md`                   | No        | Personal data                                            |
 | `input/story-library.md`            | No        | Personal data                                            |
+| `positioning/differentiators.md`    | No        | Derived from personal resume data                        |
+| `positioning/career-narrative.md`   | No        | Derived from personal resume data                        |
 | `done/`                             | No        | Contains resume analysis linked to applications sent     |
 | `done/failed/`                      | No        | Confirmed rejections — same personal data concerns       |
 | `skipped/`                          | No        | Same                                                     |
@@ -243,4 +265,5 @@ To adapt this for a different job title, location, or ATS platform:
 
 - **Search queries:** edit `job-search-queries.md` and `job-search-launcher.html` — replace `"product+manager"` and `"london"` with the target role and location
 - **Resume:** replace the contents of `input/resume.md` with the new CV
+- **Positioning files:** if `positioning/differentiators.md` or `positioning/career-narrative.md` exist, re-run `/setup` (or its Step 3 manually) after changing the resume — both are derived from the specific CV they were written against and won't necessarily hold for a different one
 - **ATS support:** to add a new ATS, update the fetch logic in `.claude/commands/scan-jobs.md` under Step 2

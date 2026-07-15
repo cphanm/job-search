@@ -67,6 +67,7 @@ Rules:
 - Governance and compliance keywords in the JD (audit trails, RBAC, policy management, access controls, compliance frameworks) are strong signals — treat them as direct matches to the user's compliance platform and KYC/AML experience documented in resume.md; do not underweight these matches
 - The user's enterprise AI feature experience (legal/government/financial institutions, 200k+ DAU — see resume.md) is the primary evidence for enterprise AI product work — use it for roles requiring AI + enterprise audiences
 - **Read multi-option requirements by their actual threshold, not full coverage.** If a requirement lists several acceptable options with a threshold word ("experience in a few of the following," "any two of," "one or more of"), check resume.md against that threshold — do not flag it as a gap just because the user's evidence doesn't cover every option in the list. Count how many options are genuinely covered before deciding.
+- **Check `positioning/differentiators.md` if it exists.** It lists the user's core differentiator patterns, evidenced across multiple companies and eras in resume.md — check these first before concluding a gap exists. These are rarer and more distinguishing than general adoption/retention/monetization evidence (which is real but closer to table-stakes PM competency). Do not undercount older or less obvious resume.md bullets that fit a listed pattern.
 
 Format:
 - Challenge 1 → [Company], [exact bullet point quoted]
@@ -94,7 +95,7 @@ Rules:
 
 Analyse the summary from Step 3 in the context of this specific job description.
 
-- Pros: what it does well, what will resonate with the hiring team. Explicitly name any met preferred/nice-to-have requirement as a differentiator here — it's real signal, not filler, and should not stay buried until Step 6.
+- Pros: what it does well, what will resonate with the hiring team. Explicitly name any met preferred/nice-to-have requirement as a differentiator here — it's real signal, not filler, and should not stay buried until Step 6. If the JD's preferred/"what sets you apart" language overlaps with one of the core differentiator patterns checked in Step 2, flag it as the strongest possible differentiator, not just a met bonus requirement.
 - Cons: what is missing, weak, overstated, or could mislead. If an unmet preferred/nice-to-have requirement is emphasized or repeated elsewhere in the JD, or is the JD's single named standout differentiator, flag it here explicitly — it carries real screening risk even though it isn't a core requirement.
 
 Be direct and specific. No hedging.
