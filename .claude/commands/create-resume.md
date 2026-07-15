@@ -62,8 +62,8 @@ Rules:
 - Quote the exact impact statement, numbers as written — do not round, reword, or combine with another bullet
 - If no bullet point directly matches a challenge, say so explicitly rather than forcing a fit
 - Before citing a company, identify who it serves: SMB, mid-market, or enterprise. Do not cite an SMB-serving company as evidence for an enterprise requirement
-- Governance and compliance keywords in the JD (audit trails, RBAC, policy management, access controls, compliance frameworks) are strong signals — treat them as direct matches to the user's compliance platform work at Bandwidth and KYC/AML work at Legalzoom; do not underweight these matches
-- AI feature experience at Vable (enterprise, legal/government/financial institutions, 200k+ DAU) is the primary evidence for enterprise AI product work — use it for roles requiring AI + enterprise audiences
+- Governance and compliance keywords in the JD (audit trails, RBAC, policy management, access controls, compliance frameworks) are strong signals — treat them as direct matches to the user's compliance platform and KYC/AML experience documented in resume.md; do not underweight these matches
+- The user's enterprise AI feature experience (legal/government/financial institutions, 200k+ DAU — see resume.md) is the primary evidence for enterprise AI product work — use it for roles requiring AI + enterprise audiences
 
 Format:
 - Challenge 1 → [Company], [exact bullet point quoted]
@@ -140,7 +140,12 @@ Look at the responsibilities and primary user type from Phase 0, not the company
 **Step C — Apply the gap:**
 If a gap is identified, downgrade the rating by one level: Fit → Stretch, Stretch → Out of Reach.
 
-Then, distinguish between **core requirements** (stated as must-have, or repeated across multiple JD sections) and **preferred requirements** (labelled "bonus," "ideally," or listed last). Apply the rating to core requirements only.
+Then, distinguish between **core requirements** (stated as must-have, or repeated across multiple JD sections) and **preferred requirements** (labelled "bonus," "ideally," "nice to have," "what sets you apart," "great if you also have," or listed last). Determine the base rating from core requirements only.
+
+**Then factor preferred requirements as a bonus, not as noise.** Multiple confirmed CV-screen-only rejections shared the same shape: core requirements were fully met, the rating came out Fit or Stretch, and the actual reason for rejection sat entirely in a preferred/"nice to have" line the rating had excluded. In practice, hiring teams use these lines as real screening filters, not soft extras — especially when a role's first pipeline stage is a CV/application review with no human contact before it. Apply this explicitly:
+- If the user meets a preferred requirement, name it in the summary or pros — it's a real differentiator, not filler.
+- If the user does **not** meet a preferred requirement, check how it's framed: if it's the JD's single named standout differentiator (e.g. a "What Sets You Apart" section naming one thing), or repeated/emphasized elsewhere in the JD, downgrade the rating by one level even though it's not formally "core." Treat it as functionally core for CV-screen purposes.
+- If it's one item in a long list of many nice-to-haves with no special emphasis, it's lower risk — note it as a gap but don't downgrade solely on that basis.
 
 State clearly on the first line: **Fit** / **Stretch** / **Out of Reach**
 
@@ -177,7 +182,7 @@ Write a complete answer in first person as the user. Rules:
 - Be concise: answer the question directly, do not pad
 - If the question is behavioural ("tell me about a time when..."), structure the answer as: situation → what the user did → the measurable outcome. Use the story-library.md version of the story as the narrative spine — it has the strategic framing and action detail that resume.md bullet points compress away
 - If a gap was flagged in A, do not include it in the drafted answer — note at the end that the user may want to add it if the experience is real
-- **Match the example's market segment to the company's GTM model.** If the company is sales-led and enterprise, use examples from Bandwidth, Vable, or Pearson — not Legalzoom (PLG, SMB). Using an SMB/PLG example for a sales-led enterprise company signals the wrong GTM mental model to the hiring manager, even if the mechanics are similar.
+- **Match the example's market segment to the company's GTM model.** Check resume.md for which of the user's roles were sales-led/enterprise vs. PLG/SMB, and pick the example accordingly. Using an SMB/PLG example for a sales-led enterprise company signals the wrong GTM mental model to the hiring manager, even if the mechanics are similar.
 - **Match the example's shape to the question's shape.** A question about "stopping" a low-value item needs an example where something was stopped or clearly deprioritised — not deferred or rescoped. A question about "moving the needle commercially" needs a commercial product outcome — not an internal operations improvement. If the best available example is a partial match, flag the mismatch and note it before drafting.
 - **Pre-defined measurement matters.** "Proved it with evidence" means the measurement framework was in place before launch, not retrospectively applied. Make this explicit in the answer when it is true.
 
