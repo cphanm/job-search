@@ -10,7 +10,7 @@ Follow these steps exactly when this command is invoked.
 
 ---
 
-## For each job description file, run all 6 steps below
+## For each job description file, run Phase 0 and all 7 steps below
 
 Append the full output — including your thinking at each step — to the job description file under a new section:
 
@@ -46,6 +46,8 @@ Use the company research to sharpen Step 1: challenges should reflect not just t
 
 Using both the job description and the company research from Phase 0, identify the 3 main challenges the hiring team wants the new hire to solve. These must be specific — grounded in the JD language and the real customer context, not generic PM responsibilities.
 
+Read the entire JD, not just the must-have/responsibilities sections. Lines labelled "nice to have," "bonus," "ideally," "what sets you apart," or "great if you also have" often name what actually differentiates candidates at the screening stage, not just formal requirements — multiple confirmed CV-screen-only rejections have hinged on exactly this kind of line. If one of the 3 challenges is best defined by something sitting in a preferred/bonus section rather than the core requirements, include it anyway — the goal is to capture what the hiring team is actually solving for, not just what's formally labelled required.
+
 Format:
 - Challenge 1: [title] — [1–2 sentence explanation referencing customer context where relevant]
 - Challenge 2: [title] — [1–2 sentence explanation referencing customer context where relevant]
@@ -64,13 +66,14 @@ Rules:
 - Before citing a company, identify who it serves: SMB, mid-market, or enterprise. Do not cite an SMB-serving company as evidence for an enterprise requirement
 - Governance and compliance keywords in the JD (audit trails, RBAC, policy management, access controls, compliance frameworks) are strong signals — treat them as direct matches to the user's compliance platform and KYC/AML experience documented in resume.md; do not underweight these matches
 - The user's enterprise AI feature experience (legal/government/financial institutions, 200k+ DAU — see resume.md) is the primary evidence for enterprise AI product work — use it for roles requiring AI + enterprise audiences
+- **Read multi-option requirements by their actual threshold, not full coverage.** If a requirement lists several acceptable options with a threshold word ("experience in a few of the following," "any two of," "one or more of"), check resume.md against that threshold — do not flag it as a gap just because the user's evidence doesn't cover every option in the list. Count how many options are genuinely covered before deciding.
 
 Format:
 - Challenge 1 → [Company], [exact bullet point quoted]
 - Challenge 2 → [Company], [exact bullet point quoted]
 - Challenge 3 → [Company], [exact bullet point quoted]
 
-After matching challenges to resume bullets, add a **Gaps to flag** section: list any specific technical requirements from the JD (e.g. SSO, SOX, RBAC, IAM, CI/CD, specific certifications) that are not explicitly evidenced in `resume.md`. For each gap, note: "Not in resume.md — the user may have real experience here worth adding." Do not silently omit these or assume they don't exist.
+After matching challenges to resume bullets, add a **Gaps to flag** section: list any specific technical requirements from the JD (e.g. SSO, SOX, RBAC, IAM, CI/CD, specific certifications) that are not explicitly evidenced in `resume.md`. For each gap, note: "Not in resume.md — the user may have real experience here worth adding." Do not silently omit these or assume they don't exist. **Tag each gap as core/must-have or preferred/nice-to-have**, based on which JD section it came from — this classification carries into Step 6's rating logic, so get it right here rather than re-deriving it later.
 
 ---
 
@@ -78,8 +81,8 @@ After matching challenges to resume bullets, add a **Gaps to flag** section: lis
 
 Write a resume summary of exactly 3 sentences:
 - **Sentence 1 — Identity**: A one-line statement framing the user's specific positioning for this role. Not "I'm a product manager who..." — name the domain, customer type, or angle that matters for this JD.
-- **Sentence 2 — Evidence**: Exactly three claims, each from a different company or source, separated by semicolons. Exact numbers and exact company names as written in the resume. One claim per clause — do not stack multiple outcomes from the same company into one clause.
-- **Sentence 3 — Forward-looking**: One sentence specific to this role and this company's actual problem. Must mirror the company's language or stated challenge — not generic phrases like "seeking a new challenge." Always start with "Looking to" — never "Joining"; the user is applying, not starting.
+- **Sentence 2 — Evidence**: Exactly three claims, one per company/source, separated by semicolons — no stacking multiple outcomes from the same company into one clause. Each of the 3 claims must map 1:1 to one of the 3 challenges identified in Step 1 — the claim must be the evidence that answers that specific challenge, not just any strong claim from that company. Exact numbers and exact company names as written in the resume.
+- **Sentence 3 — Forward-looking**: One sentence specific to this role and this company's actual problem. Must mirror the company's language or stated challenge — not generic phrases like "seeking a new challenge." Always start with "Looking to" — never "Joining," and never "Looking to join [Company] to [verb]" (a double infinitive); go straight to the work, not the act of joining.
 
 Rules:
 - Uses exact numbers and impacts as written in the resume (no rounding, no combining, no interpreting)
@@ -91,8 +94,8 @@ Rules:
 
 Analyse the summary from Step 3 in the context of this specific job description.
 
-- Pros: what it does well, what will resonate with the hiring team
-- Cons: what is missing, weak, overstated, or could mislead
+- Pros: what it does well, what will resonate with the hiring team. Explicitly name any met preferred/nice-to-have requirement as a differentiator here — it's real signal, not filler, and should not stay buried until Step 6.
+- Cons: what is missing, weak, overstated, or could mislead. If an unmet preferred/nice-to-have requirement is emphasized or repeated elsewhere in the JD, or is the JD's single named standout differentiator, flag it here explicitly — it carries real screening risk even though it isn't a core requirement.
 
 Be direct and specific. No hedging.
 
@@ -105,7 +108,7 @@ Every summary (baseline and alternatives) must first pass these baseline require
 - Addresses all 3 challenges from Step 1
 - Identity framing matches both the JD and the user's actual experience
 - Forward-looking sentence is specific to this role and the user's trajectory
-- Exactly 3 sentences: S1 identity, S2 three evidence claims from three different companies/sources (one per clause, semicolon-separated), S3 forward-looking
+- Exactly 3 sentences: S1 identity, S2 three evidence claims from three different companies/sources (one per clause, semicolon-separated, each mapped 1:1 to one of the 3 Step 1 challenges), S3 forward-looking
 
 Open this step by reproducing the Step 3 summary verbatim as **Option 0 — Baseline** and scoring it using the same rubric below. Then produce three alternatives. All four are scored in this step so the user can compare them directly.
 
@@ -121,6 +124,8 @@ For each summary (Option 0 through Option C):
 - Write the full summary
 - Score: [X]/10 — Conciseness [x]/3 · Punchiness [x]/4 · Clarity [x]/3
 - Explain in 1–2 sentences what drives the score up or down
+
+**Every alternative (Option A, B, C) must score at least 8.5/10** — Option 0 is the unoptimized baseline and is exempt. If an alternative scores below 8.5, revise it once more and rescore. If it is still below 8.5 after that one revision, state explicitly why — e.g. a real gap or constraint in the underlying evidence that no amount of rewording can fix — rather than leaving a low score unexplained.
 
 ---
 
@@ -140,7 +145,7 @@ Look at the responsibilities and primary user type from Phase 0, not the company
 **Step C — Apply the gap:**
 If a gap is identified, downgrade the rating by one level: Fit → Stretch, Stretch → Out of Reach.
 
-Then, distinguish between **core requirements** (stated as must-have, or repeated across multiple JD sections) and **preferred requirements** (labelled "bonus," "ideally," "nice to have," "what sets you apart," "great if you also have," or listed last). Determine the base rating from core requirements only.
+Then, distinguish between **core requirements** (stated as must-have, or repeated across multiple JD sections) and **preferred requirements** (labelled "bonus," "ideally," "nice to have," "what sets you apart," "great if you also have," or listed last) — use the core/preferred tags already assigned in Step 2's Gaps to flag section rather than re-deriving this from scratch. Determine the base rating from core requirements only.
 
 **Then factor preferred requirements as a bonus, not as noise.** Multiple confirmed CV-screen-only rejections shared the same shape: core requirements were fully met, the rating came out Fit or Stretch, and the actual reason for rejection sat entirely in a preferred/"nice to have" line the rating had excluded. In practice, hiring teams use these lines as real screening filters, not soft extras — especially when a role's first pipeline stage is a CV/application review with no human contact before it. Apply this explicitly:
 - If the user meets a preferred requirement, name it in the summary or pros — it's a real differentiator, not filler.
