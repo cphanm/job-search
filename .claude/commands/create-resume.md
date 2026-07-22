@@ -82,7 +82,7 @@ After matching challenges to resume bullets, add a **Gaps to flag** section: lis
 
 Write a resume summary of exactly 3 sentences:
 - **Sentence 1 — Identity**: A one-line statement framing the user's specific positioning for this role. Not "I'm a product manager who..." — name the domain, customer type, or angle that matters for this JD.
-- **Sentence 2 — Evidence**: Exactly three claims, one per company/source, separated by semicolons — no stacking multiple outcomes from the same company into one clause. Each of the 3 claims must map 1:1 to one of the 3 challenges identified in Step 1 — the claim must be the evidence that answers that specific challenge, not just any strong claim from that company. Exact numbers and exact company names as written in the resume.
+- **Sentence 2 — Evidence**: Exactly three claims, one per company/source, separated by semicolons — no stacking multiple outcomes from the same company into one clause. Each clause follows the format **"at [Company], [impact] by [action]"** — lead with the company name, then the quantified impact, then the method/action that drove it. Example: "at [Company], cut time-on-task 60 to 10 minutes by shipping a new AI feature, co-created with customers and Engineers." Each of the 3 claims must map 1:1 to one of the 3 challenges identified in Step 1 — the claim must be the evidence that answers that specific challenge, not just any strong claim from that company. Exact numbers and exact company names as written in the resume.
 - **Sentence 3 — Forward-looking**: One sentence specific to this role and this company's actual problem. Must mirror the company's language or stated challenge — not generic phrases like "seeking a new challenge." Always start with "Looking to" — never "Joining," and never "Looking to join [Company] to [verb]" (a double infinitive); go straight to the work, not the act of joining.
 
 Rules:
@@ -109,7 +109,7 @@ Every summary (baseline and alternatives) must first pass these baseline require
 - Addresses all 3 challenges from Step 1
 - Identity framing matches both the JD and the user's actual experience
 - Forward-looking sentence is specific to this role and the user's trajectory
-- Exactly 3 sentences: S1 identity, S2 three evidence claims from three different companies/sources (one per clause, semicolon-separated, each mapped 1:1 to one of the 3 Step 1 challenges), S3 forward-looking
+- Exactly 3 sentences: S1 identity, S2 three evidence claims from three different companies/sources (one per clause, semicolon-separated, each following the "at [Company], [impact] by [action]" format, each mapped 1:1 to one of the 3 Step 1 challenges), S3 forward-looking
 
 Open this step by reproducing the Step 3 summary verbatim as **Option 0 — Baseline** and scoring it using the same rubric below. Then produce three alternatives. All four are scored in this step so the user can compare them directly.
 
