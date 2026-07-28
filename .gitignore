@@ -1,5 +1,5 @@
-input/resume.md
-input/story-library.md
+input/*
+!input/job-description-template.md
 positioning/*
 done/*
 skipped/*

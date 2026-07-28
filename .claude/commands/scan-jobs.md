@@ -119,6 +119,61 @@ print(''.join(p.text))
 " | tr -s ' \n'
 ```
 
+**Method D — LinkedIn individual job posting** (public, no login required):
+- `linkedin.com/jobs/view/<id>` (with or without a title slug before the id)
+- Does **not** cover `linkedin.com/jobs/search-results/...` URLs — those require a logged-in session and are out of scope for this command.
+
+```bash
+curl -s -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36" "[URL]" | python3 -c "
+import sys, re
+from html.parser import HTMLParser
+
+class TextExtractor(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.text = []
+        self.skip = False
+    def handle_starttag(self, tag, attrs):
+        if tag in ('script', 'style'):
+            self.skip = True
+        elif tag in ('br', 'li'):
+            self.text.append('\n')
+    def handle_endtag(self, tag):
+        if tag in ('script', 'style'):
+            self.skip = False
+    def handle_data(self, data):
+        if not self.skip:
+            self.text.append(data)
+
+html = sys.stdin.read()
+
+canonical = re.search(r'canonical\" href=\"([^\"]*)\"', html)
+print('CANONICAL:', canonical.group(1) if canonical else '')
+
+flavors = re.findall(r'topcard__flavor[^\"]*\">(.*?)</span>', html, re.S)
+for f in flavors:
+    print('FLAVOR:', re.sub('<[^>]+>', '', f).strip())
+
+m = re.search(r'show-more-less-html__markup[^\"]*\">(.*?)</div>\s*<button class=\"show-more-less-html__button', html, re.S)
+if not m:
+    m = re.search(r'description__text description__text--rich\">(.*?)<section', html, re.S)
+if m:
+    p = TextExtractor()
+    p.feed(m.group(1))
+    text = ''.join(p.text)
+    text = re.sub(r'[ \t]+', ' ', text)
+    text = re.sub(r'\n\s*\n+', '\n\n', text)
+    text = text.split('Show more')[0]
+    print('---DESCRIPTION---')
+    print(text.strip())
+else:
+    print('---DESCRIPTION---')
+    print('NOT FOUND')
+"
+```
+
+`CANONICAL` gives the job-title-and-company slug (e.g. `senior-product-manager-at-legora-4441818899`) — use it to confirm title and company if not otherwise clear. The `FLAVOR` lines are, in order: company name, location, and posted-date — use the first two directly as Company and Location metadata. Everything after `---DESCRIPTION---` is the job description body. The primary regex targets LinkedIn's current `show-more-less-html__markup` wrapper around the description; the second regex is a fallback for older markup that doesn't use that wrapper. `<br>` and `<li>` tags are converted to newlines so paragraph and list structure survives extraction — expect some remaining run-on text where the source itself has no internal line breaks, and reformat it into clean paragraphs/bullets in Step 5.
+
 Issue all fetches in parallel. If a fetch fails or returns no meaningful content, note it and continue — do not block on it.
 
 ---
@@ -128,6 +183,8 @@ Issue all fetches in parallel. If a fetch fails or returns no meaningful content
 From the fetched text, extract:
 - **Job title** — the role title as written in the posting
 - **Company name** — as written in the posting
+
+For LinkedIn (Method D) sources, take Company and Location directly from the first two `FLAVOR` lines rather than re-parsing the description body.
 
 ---
 
@@ -141,6 +198,7 @@ Try these methods in order, stopping at the first that works:
    - `boards.greenhouse.io/anthropic/` → try `https://anthropic.com`
    - `jobs.lever.co/stripe/` → try `https://stripe.com`
    - `jobs.smartrecruiters.com/Experian/` → try `https://www.experian.com`
+   - Does not apply to LinkedIn URLs — the slug encodes the job title, not the company domain. Go straight to WebSearch fallback if the JD text has no company URL.
 3. **WebSearch fallback** — search `"[Company Name]" official website` and take the first result that matches the company
 
 Fetch the homepage URL to confirm it loads. If no homepage can be confirmed, write `Homepage:` blank and note it.

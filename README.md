@@ -1,6 +1,6 @@
 # Job Search — Claude Code Workflow
 
-A personal job search system built on [Claude Code](https://claude.ai/code). Six slash commands handle the full pipeline: guided setup, finding jobs, fetching job descriptions, matching against a resume, generating personalised resume summaries and application answers, and managing the interview pipeline from recruiter call through to hiring manager interview.
+A personal job search system built on [Claude Code](https://claude.ai/code). Seven slash commands handle the full pipeline: guided setup, optionally pulling job links from LinkedIn alert emails, fetching job descriptions, matching against a resume, generating personalised resume summaries and application answers, and managing the interview pipeline from recruiter call through to hiring manager interview.
 
 ---
 
@@ -22,6 +22,7 @@ That's it. No environment variables, no dependencies to install.
 **What `/setup` creates, manually if you'd rather skip the guided version:**
 - `input/resume.md` — paste the full, unedited text of your CV here. Gitignored, never leaves your machine.
 - `input/story-library.md` — paste your behavioral story library here. Used only by `/create-resume` Step 7 when drafting application form answers, since resume bullets are often too compressed to carry a full behavioral story. Also gitignored.
+- `input/linkedin-mailbox.md` — (optional) the address of a dedicated Gmail account used only by `/scan-linkedin-alerts` to read LinkedIn job-alert emails. Not created by `/setup`; create it manually if you want that command. Gitignored.
 - `positioning/differentiators.md` — the 1–3 patterns in your resume that make you stand out, not just qualified (e.g. a skill combination that shows up across multiple roles/eras). Derived from `input/resume.md` alone, never the story library — this is what a recruiter or hiring panel actually sees. `/create-resume` checks this before flagging a gap and when deciding what to surface as a differentiator. Gitignored — this isn't raw input, it's a conclusion about your input, which is why it lives in its own folder rather than `input/`.
 - `positioning/career-narrative.md` — the fuller evidence behind `differentiators.md`: recurring problems solved, decisions you personally owned, the trade-offs resume.md actually states, and what would make a hiring panel trust you with a roadmap. Also gitignored.
 
@@ -52,6 +53,20 @@ Run once when starting fresh, and safe to re-run later (e.g. after updating your
 3. Prompts you to create `input/story-library.md`, with a clear explanation of what it's actually for (Step 7 application answers only — see `/create-resume` below) so you can decide whether to invest time in it now
 4. Reads `input/resume.md` alone (never the story library — positioning reflects what a recruiter sees, not the fuller narrative behind it), proposes 3–5 candidate recurring patterns with evidence, and asks you to sort them into genuine differentiators vs. table-stakes competency — expect a few rounds of back-and-forth, not a single-shot answer
 5. Writes `positioning/differentiators.md` and `positioning/career-narrative.md` once you've confirmed the split, and shows you both for review
+
+### `/scan-linkedin-alerts` — Pull job links from LinkedIn alert emails
+
+Optional, requires `input/linkedin-mailbox.md` (see Setup above).
+
+1. Checks a dedicated Gmail inbox for unread LinkedIn job-alert emails — sent directly, or forwarded in from another mailbox (detected by a "Fwd:" subject referencing LinkedIn's alert sender)
+2. Extracts every job link from each alert (multi-job digests and single-job alerts both supported)
+3. Dedups against every job already tracked anywhere in the repo
+4. Appends new links to `work-in-progress/jobs-to-scan.md` under `## To Scan`
+5. Runs `/scan-jobs` automatically if any new links were added
+
+This command only ever touches the one Gmail account named in `input/linkedin-mailbox.md` — never another account logged into the same browser.
+
+---
 
 ### `/scan-jobs` — Fetch job descriptions
 
@@ -95,7 +110,7 @@ For each file, Claude appends a `## Resume Personalisation` section containing:
 6. **Pros and Cons** — direct feedback on the summary: what will resonate, what is weak or missing; met and unmet preferred/nice-to-have requirements are named explicitly here as differentiators or risks, not left implicit
 7. **Scored Summaries** — the Step 5 personalised summary is reproduced as Option 0 (Baseline) and scored alongside 3 alternatives; all four scored out of 10 across conciseness, punchiness, and clarity in one block for direct comparison; each alternative must score at least 8.5 — if not, it's revised once and rescored, with an explicit note if it's still below 8.5 after that
 8. **Fit Assessment** — opens with a business model check: identifies what the PM in the role actually builds for (business customers = no gap; consumers or marketplace = gap; for mixed-model companies, states explicitly which side the role sits on and whether that creates a gap); then issues Fit / Stretch / Out of Reach against core requirements, with preferred/nice-to-have requirements factored in as a bonus — an unmet requirement that's the JD's named standout differentiator (or repeated/emphasized elsewhere) can still trigger a one-level downgrade even though it isn't formally core; followed by fit basis: whether the domain and primary user type transfer directly or require a mental leap
-9. **Application Form Answers** — drafted answers for any questions present in the file; uses `input/story-library.md` for narrative shape and context, cross-checked against `input/resume.md` for exact numbers; each answer capped at 300 words
+9. **Application Form Answers** — drafted answers for any questions present in the file; uses `input/story-library.md` for narrative shape and context, cross-checked against `input/resume.md` for exact numbers; each answer capped at 300 words; checked for evidence reuse across the file's own questions before drafting, so the same company/story isn't used twice without a reason
 
 ---
 
@@ -144,6 +159,7 @@ job-search/
 ├── input/                             # read-only source files
 │   ├── resume.md                      # your CV — GITIGNORED, never committed
 │   ├── story-library.md               # behavioral story library — GITIGNORED, never committed
+│   ├── linkedin-mailbox.md            # (optional) automation Gmail address for /scan-linkedin-alerts — GITIGNORED
 │   └── job-description-template.md   # template structure for JD files
 │
 ├── positioning/                       # GITIGNORED — derived from input/, not raw input itself
@@ -163,6 +179,7 @@ job-search/
     ├── settings.json                  # Claude Code permission allowlist for this project
     └── commands/
         ├── setup.md                   # /setup command definition
+        ├── scan-linkedin-alerts.md    # /scan-linkedin-alerts command definition
         ├── scan-jobs.md               # /scan-jobs command definition
         ├── create-resume.md           # /create-resume command definition
         ├── prepare-recruiter.md       # /prepare-recruiter command definition
@@ -176,6 +193,7 @@ job-search/
 
 ```
 1. Find roles       job-search-launcher.html or job-search-queries.md
+   (or)             /scan-linkedin-alerts (optional, needs input/linkedin-mailbox.md)
         |
         v
 2. Queue URLs       work-in-progress/jobs-to-scan.md  →  ## To Scan
@@ -241,6 +259,7 @@ Move the file to `done/` once the application is submitted. Move it to `skipped/
 | ----------------------------------- | --------- | -------------------------------------------------------- |
 | `input/resume.md`                   | No        | Personal data                                            |
 | `input/story-library.md`            | No        | Personal data                                            |
+| `input/linkedin-mailbox.md`         | No        | Automation Gmail account address                         |
 | `positioning/differentiators.md`    | No        | Derived from personal resume data                        |
 | `positioning/career-narrative.md`   | No        | Derived from personal resume data                        |
 | `done/`                             | No        | Contains resume analysis linked to applications sent     |

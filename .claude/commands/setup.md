@@ -2,7 +2,7 @@ Follow these steps exactly when this command is invoked.
 
 ## Purpose
 
-Guide the user through first-time setup of this job search workflow: capturing their resume, optionally capturing their behavioral story library, and building the `positioning/` files that `/create-resume` uses to avoid undercounting the user's real differentiators. Safe to re-run later — each step checks whether its output already exists and skips it, so re-running after a resume update only touches what needs to change.
+Guide the user through first-time setup of this job search workflow: capturing their resume, optionally capturing their behavioral story library, optionally setting up a dedicated LinkedIn alerts mailbox, and building the `positioning/` files that `/create-resume` uses to avoid undercounting the user's real differentiators. Safe to re-run later — each step checks whether its output already exists and skips it, so re-running after a resume update only touches what needs to change.
 
 ---
 
@@ -11,6 +11,7 @@ Guide the user through first-time setup of this job search workflow: capturing t
 Check for the existence of:
 - `input/resume.md`
 - `input/story-library.md`
+- `input/linkedin-mailbox.md`
 - `positioning/differentiators.md`
 - `positioning/career-narrative.md`
 
@@ -32,13 +33,33 @@ If it already exists, confirm and move to Step 2.
 
 If `input/story-library.md` does not exist:
 
-Explain its actual purpose clearly, so the user can decide whether to invest time in it now or skip it: it is used only by `/create-resume` Step 7 to draft application form answers. A resume's bullet points are compressed for space and often don't carry enough narrative detail for a behavioral question ("tell me about a time...") — the story library exists to hold that fuller shape (situation, actions, trade-offs, results) separately. It plays no role in the `positioning/` files built in Step 3 below — those come from the resume alone, because the resume is what recruiters and hiring panels actually see.
+Explain its actual purpose clearly, so the user can decide whether to invest time in it now or skip it: it is used only by `/create-resume` Step 7 to draft application form answers. A resume's bullet points are compressed for space and often don't carry enough narrative detail for a behavioral question ("tell me about a time...") — the story library exists to hold that fuller shape (situation, actions, trade-offs, results) separately. It plays no role in the `positioning/` files built in Step 4 below — those come from the resume alone, because the resume is what recruiters and hiring panels actually see.
 
 Ask if the user wants to create it now (paste their stories, or paste a rough version to refine later) or skip it and add it later. Do not create or write this file directly, for the same reason as Step 1.
 
 ---
 
-## Step 3 — Positioning (interactive — do not skip the back-and-forth)
+## Step 3 — LinkedIn alerts mailbox (optional)
+
+If `input/linkedin-mailbox.md` does not exist:
+
+Explain its purpose clearly: `/scan-linkedin-alerts` checks a dedicated Gmail inbox for unread LinkedIn job-alert emails (sent directly, or forwarded in from another mailbox) and pulls job links from them automatically, feeding into the same `work-in-progress/jobs-to-scan.md` queue that `/scan-jobs` reads from. It requires a Gmail account dedicated solely to this purpose — not the user's personal or work email — since the command reads and searches that inbox directly.
+
+Ask if the user wants to set this up now or skip it and add it later. Do not create or write this file directly, for the same reason as Steps 1 and 2 — this also means never asking for or handling a password; only the address of an account the user has already created themselves.
+
+If the user wants to proceed, tell them to create `input/linkedin-mailbox.md` with this content, replacing the placeholder:
+
+```
+# LinkedIn Alerts Mailbox
+
+Dedicated Gmail account used by `/scan-linkedin-alerts` for reading LinkedIn job-alert digest emails. Not committed to the public repo — input/ is excluded by default in .gitignore except job-description-template.md.
+
+Account: <paste address here>
+```
+
+---
+
+## Step 4 — Positioning (interactive — do not skip the back-and-forth)
 
 Only run once `input/resume.md` exists. Uses `input/resume.md` alone — never `input/story-library.md` — because positioning describes what a recruiter or hiring panel sees on the page, not the fuller narrative behind it.
 
@@ -60,6 +81,6 @@ Only run once `input/resume.md` exists. Uses `input/resume.md` alone — never `
 
 ---
 
-## Step 4 — Wrap-up
+## Step 5 — Wrap-up
 
-Summarize what now exists (resume, story library if created, both positioning files). Point to the next step in the workflow: `job-search-launcher.html` or `job-search-queries.md` to find roles, then `/scan-jobs` to start the pipeline.
+Summarize what now exists (resume, story library if created, LinkedIn mailbox if created, both positioning files). Point to the next step in the workflow: `job-search-launcher.html` or `job-search-queries.md` to find roles (or `/scan-linkedin-alerts` if the mailbox was set up), then `/scan-jobs` to start the pipeline.

@@ -139,10 +139,11 @@ First, run a two-step business model check:
 Look at the responsibilities and primary user type from Phase 0, not the company's overall label. Determine which of these applies:
 - The PM owns a product built for **business customers or internal users** (e.g. enterprise SaaS, internal tooling, developer platform, B2B workflows) → no business model gap
 - The PM owns a product built for **consumers or marketplace participants** (e.g. consumer-facing features, acquisition funnels, end-user growth, buyer/seller dynamics) → business model gap
+- **Government or public-sector agencies are the primary paying customer** (B2G, or B2B2G where government/public-sector procurement drives the sale, even if end-users are internal staff) → check resume.md for direct evidence of navigating a government or public-sector sales/procurement motion. Building for public-sector *end-users* does not by itself resolve this — the gap, if it exists, is in the sales/procurement motion, not the user experience. If resume.md shows no such evidence, treat it as a business model gap. If resume.md does show direct public-sector sales/procurement experience, there is no gap here.
 
 **Step B — State the verdict on its own line before the rating:**
-- `Business model: B2B — no gap` / `B2B2C — no gap` / `B2C — gap` / `Marketplace — gap`
-- If the company has a mixed model, identify which side the PM role sits on and state it explicitly: e.g. `Business model: Company is B2B2C; PM role owns the B2B merchant side — no gap` or `Business model: Company is B2B2C; PM role owns the consumer-facing side — gap`
+- `Business model: B2B — no gap` / `B2B2C — no gap` / `B2C — gap` / `Marketplace — gap` / `B2G — gap` or `B2G — no gap (resume.md shows direct public-sector sales/procurement experience)`
+- If the company has a mixed model, identify which side the PM role sits on and state it explicitly: e.g. `Business model: Company is B2B2C; PM role owns the B2B merchant side — no gap` or `Business model: Company is B2B2C; PM role owns the consumer-facing side — gap` or `Business model: Company is B2B2G; government/public-sector procurement is the primary sale — gap (no public-sector sales/procurement evidence in resume.md)` or `Business model: Company is B2B2G; government/public-sector procurement is the primary sale — no gap (resume.md shows direct public-sector sales/procurement experience)`
 
 **Step C — Apply the gap:**
 If a gap is identified, downgrade the rating by one level: Fit → Stretch, Stretch → Out of Reach.
@@ -192,6 +193,7 @@ Write a complete answer in first person as the user. Rules:
 - **Match the example's market segment to the company's GTM model.** Check resume.md for which of the user's roles were sales-led/enterprise vs. PLG/SMB, and pick the example accordingly. Using an SMB/PLG example for a sales-led enterprise company signals the wrong GTM mental model to the hiring manager, even if the mechanics are similar.
 - **Match the example's shape to the question's shape.** A question about "stopping" a low-value item needs an example where something was stopped or clearly deprioritised — not deferred or rescoped. A question about "moving the needle commercially" needs a commercial product outcome — not an internal operations improvement. If the best available example is a partial match, flag the mismatch and note it before drafting.
 - **Pre-defined measurement matters.** "Proved it with evidence" means the measurement framework was in place before launch, not retrospectively applied. Make this explicit in the answer when it is true.
+- **Check evidence reuse across all questions in this file before drafting any answer.** If the same company or bullet is the strongest fit for two different questions, don't draft both in isolation. Either pick a different, still-genuine example for one of them, or flag the overlap explicitly and ask which question should keep it. A reader reviewing all the answers together will notice if the same story appears twice.
 
 Format per question:
 #### Q[n]: [question text]
