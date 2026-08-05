@@ -1,6 +1,6 @@
 # Job Search — Claude Code Workflow
 
-A personal job search system built on [Claude Code](https://claude.ai/code). Seven slash commands handle the full pipeline: guided setup, optionally pulling job links from LinkedIn alert emails, fetching job descriptions, matching against a resume, generating personalised resume summaries and application answers, and managing the interview pipeline from recruiter call through to hiring manager interview.
+A personal job search system built on [Claude Code](https://claude.ai/code). Eight slash commands handle the full pipeline: guided setup, optionally pulling job links from LinkedIn and Welcome to the Jungle alert emails, fetching job descriptions, matching against a resume, generating personalised resume summaries and application answers, and managing the interview pipeline from recruiter call through to hiring manager interview.
 
 ---
 
@@ -22,7 +22,8 @@ That's it. No environment variables, no dependencies to install.
 **What `/setup` creates, manually if you'd rather skip the guided version:**
 - `input/resume.md` — paste the full, unedited text of your CV here. Gitignored, never leaves your machine.
 - `input/story-library.md` — paste your behavioral story library here. Used only by `/create-resume` Step 7 when drafting application form answers, since resume bullets are often too compressed to carry a full behavioral story. Also gitignored.
-- `input/linkedin-mailbox.md` — (optional) the address of a dedicated Gmail account used only by `/scan-linkedin-alerts` to read LinkedIn job-alert emails. Not created by `/setup`; create it manually if you want that command. Gitignored.
+- `input/job-alerts-mailbox.md` — (optional) the address of a dedicated Gmail account used by `/scan-linkedin-alerts` and `/scan-wttj-alerts` to read job-alert emails. Not created by `/setup`; create it manually if you want either command. Gitignored.
+- `input/blacklisted-companies.md` — (optional) a table of companies/posters to exclude from consideration (e.g. AI recruiters that never name the real hiring company). `/scan-jobs` checks it after fetching each posting and skips any match instead of creating a file. Not created by `/setup`; create it manually if you want this filter. Gitignored.
 - `positioning/differentiators.md` — the 1–3 patterns in your resume that make you stand out, not just qualified (e.g. a skill combination that shows up across multiple roles/eras). Derived from `input/resume.md` alone, never the story library — this is what a recruiter or hiring panel actually sees. `/create-resume` checks this before flagging a gap and when deciding what to surface as a differentiator. Gitignored — this isn't raw input, it's a conclusion about your input, which is why it lives in its own folder rather than `input/`.
 - `positioning/career-narrative.md` — the fuller evidence behind `differentiators.md`: recurring problems solved, decisions you personally owned, the trade-offs resume.md actually states, and what would make a hiring panel trust you with a roadmap. Also gitignored.
 
@@ -56,7 +57,7 @@ Run once when starting fresh, and safe to re-run later (e.g. after updating your
 
 ### `/scan-linkedin-alerts` — Pull job links from LinkedIn alert emails
 
-Optional, requires `input/linkedin-mailbox.md` (see Setup above).
+Optional, requires `input/job-alerts-mailbox.md` (see Setup above).
 
 1. Checks a dedicated Gmail inbox for unread LinkedIn job-alert emails — sent directly, or forwarded in from another mailbox (detected by a "Fwd:" subject referencing LinkedIn's alert sender)
 2. Extracts every job link from each alert (multi-job digests and single-job alerts both supported)
@@ -64,7 +65,21 @@ Optional, requires `input/linkedin-mailbox.md` (see Setup above).
 4. Appends new links to `work-in-progress/jobs-to-scan.md` under `## To Scan`
 5. Runs `/scan-jobs` automatically if any new links were added
 
-This command only ever touches the one Gmail account named in `input/linkedin-mailbox.md` — never another account logged into the same browser.
+This command only ever touches the one Gmail account named in `input/job-alerts-mailbox.md` — never another account logged into the same browser.
+
+---
+
+### `/scan-wttj-alerts` — Pull job links from Welcome to the Jungle alert emails
+
+Optional, requires `input/job-alerts-mailbox.md` (see Setup above).
+
+1. Checks the same dedicated Gmail inbox for unread Welcome to the Jungle "New match" alert emails — sent directly, or forwarded in from another mailbox
+2. Each alert is a digest of several matched jobs, each with its own tracked link; resolves each link to the real job URL and extracts a stable job ID
+3. Dedups against every job already tracked anywhere in the repo
+4. Appends new links to `work-in-progress/jobs-to-scan.md` under `## To Scan`
+5. Runs `/scan-jobs` automatically if any new links were added
+
+This command only ever touches the one Gmail account named in `input/job-alerts-mailbox.md` — never another account logged into the same browser. Note: the resolved job links carry a time-limited access token, so scan promptly after an alert arrives rather than letting unread alerts pile up.
 
 ---
 
@@ -85,7 +100,7 @@ Supported ATS platforms and their fetch methods:
 | ATS | Method |
 |-----|--------|
 | Greenhouse, Lever, Workable, SmartRecruiters, Jobvite, Recruitee, Teamtailor, Breezy HR, Personio | curl (server-rendered) |
-| Ashby, Workday, Oracle HCM | Chrome headless |
+| Ashby, Workday, Oracle HCM, Welcome to the Jungle (app.welcometothejungle.com) | Chrome headless |
 | iCIMS | Chrome headless with user-agent |
 | Unknown / company careers pages | curl first, Chrome headless fallback |
 
@@ -159,7 +174,8 @@ job-search/
 ├── input/                             # read-only source files
 │   ├── resume.md                      # your CV — GITIGNORED, never committed
 │   ├── story-library.md               # behavioral story library — GITIGNORED, never committed
-│   ├── linkedin-mailbox.md            # (optional) automation Gmail address for /scan-linkedin-alerts — GITIGNORED
+│   ├── job-alerts-mailbox.md          # (optional) automation Gmail address for /scan-linkedin-alerts and /scan-wttj-alerts — GITIGNORED
+│   ├── blacklisted-companies.md       # (optional) companies /scan-jobs should skip — GITIGNORED
 │   └── job-description-template.md   # template structure for JD files
 │
 ├── positioning/                       # GITIGNORED — derived from input/, not raw input itself
@@ -180,6 +196,7 @@ job-search/
     └── commands/
         ├── setup.md                   # /setup command definition
         ├── scan-linkedin-alerts.md    # /scan-linkedin-alerts command definition
+        ├── scan-wttj-alerts.md        # /scan-wttj-alerts command definition
         ├── scan-jobs.md               # /scan-jobs command definition
         ├── create-resume.md           # /create-resume command definition
         ├── prepare-recruiter.md       # /prepare-recruiter command definition
@@ -193,7 +210,7 @@ job-search/
 
 ```
 1. Find roles       job-search-launcher.html or job-search-queries.md
-   (or)             /scan-linkedin-alerts (optional, needs input/linkedin-mailbox.md)
+   (or)             /scan-linkedin-alerts or /scan-wttj-alerts (optional, needs input/job-alerts-mailbox.md)
         |
         v
 2. Queue URLs       work-in-progress/jobs-to-scan.md  →  ## To Scan
@@ -259,7 +276,8 @@ Move the file to `done/` once the application is submitted. Move it to `skipped/
 | ----------------------------------- | --------- | -------------------------------------------------------- |
 | `input/resume.md`                   | No        | Personal data                                            |
 | `input/story-library.md`            | No        | Personal data                                            |
-| `input/linkedin-mailbox.md`         | No        | Automation Gmail account address                         |
+| `input/job-alerts-mailbox.md`       | No        | Automation Gmail account address                         |
+| `input/blacklisted-companies.md`    | No        | May reflect personal application decisions                |
 | `positioning/differentiators.md`    | No        | Derived from personal resume data                        |
 | `positioning/career-narrative.md`   | No        | Derived from personal resume data                        |
 | `done/`                             | No        | Contains resume analysis linked to applications sent     |

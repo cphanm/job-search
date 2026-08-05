@@ -11,7 +11,8 @@ Read `work-in-progress/jobs-to-scan.md`, fetch each job posting URL, create one 
 1. Read `work-in-progress/jobs-to-scan.md`
 2. Collect all URLs listed under `## To Scan` (one per line, skip blank lines and comments)
 3. Read `input/job-description-template.md` to get the file structure
-4. If no URLs are found under `## To Scan`, stop and tell the user the list is empty.
+4. Read `input/blacklisted-companies.md` if it exists (optional — if missing, treat the blacklist as empty and skip all blacklist checks below). Parse the `Company` and `Homepage` columns from its table for use in Step 5.
+5. If no URLs are found under `## To Scan`, stop and tell the user the list is empty.
 
 ---
 
@@ -63,6 +64,7 @@ print(''.join(p.text))
 - Ashby: `jobs.ashbyhq.com`
 - Workday: `myworkdayjobs.com`
 - Oracle Cloud HCM: `oraclecloud.com/hcmUI`
+- Welcome to the Jungle: `app.welcometothejungle.com` — plain curl only returns an empty SPA shell with generic meta tags (title "Welcome to the Jungle - The better way to find a job in tech" regardless of the actual job); Chrome headless is required to get real content. The rendered page's `<title>` follows the pattern `[Company] [Job Title] | Welcome to the Jungle (formerly Otta)` — use it to confirm title and company if not otherwise clear from the body text.
 
 ```bash
 /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --headless=new --virtual-time-budget=5000 --dump-dom "[URL]" 2>/dev/null | python3 -c "
@@ -172,7 +174,7 @@ else:
 "
 ```
 
-`CANONICAL` gives the job-title-and-company slug (e.g. `senior-product-manager-at-legora-4441818899`) — use it to confirm title and company if not otherwise clear. The `FLAVOR` lines are, in order: company name, location, and posted-date — use the first two directly as Company and Location metadata. Everything after `---DESCRIPTION---` is the job description body. The primary regex targets LinkedIn's current `show-more-less-html__markup` wrapper around the description; the second regex is a fallback for older markup that doesn't use that wrapper. `<br>` and `<li>` tags are converted to newlines so paragraph and list structure survives extraction — expect some remaining run-on text where the source itself has no internal line breaks, and reformat it into clean paragraphs/bullets in Step 5.
+`CANONICAL` gives the job-title-and-company slug (e.g. `senior-product-manager-at-acme-co-4441818899`) — use it to confirm title and company if not otherwise clear. The `FLAVOR` lines are, in order: company name, location, and posted-date — use the first two directly as Company and Location metadata. Everything after `---DESCRIPTION---` is the job description body. The primary regex targets LinkedIn's current `show-more-less-html__markup` wrapper around the description; the second regex is a fallback for older markup that doesn't use that wrapper. `<br>` and `<li>` tags are converted to newlines so paragraph and list structure survives extraction — expect some remaining run-on text where the source itself has no internal line breaks, and reformat it into clean paragraphs/bullets in Step 5.
 
 Issue all fetches in parallel. If a fetch fails or returns no meaningful content, note it and continue — do not block on it.
 
@@ -194,20 +196,30 @@ Try these methods in order, stopping at the first that works:
 
 1. **From the JD text** — look for the company's own website URL mentioned in the About or Company section
 2. **From the ATS URL slug** — derive the company domain:
-   - `jobs.ashbyhq.com/tesslcareers/` → strip "careers" → try `https://tessl.io` and `https://tessl.com`
-   - `boards.greenhouse.io/anthropic/` → try `https://anthropic.com`
-   - `jobs.lever.co/stripe/` → try `https://stripe.com`
-   - `jobs.smartrecruiters.com/Experian/` → try `https://www.experian.com`
-   - Does not apply to LinkedIn URLs — the slug encodes the job title, not the company domain. Go straight to WebSearch fallback if the JD text has no company URL.
+   - `jobs.ashbyhq.com/acmecocareers/` → strip "careers" → try `https://acmeco.io` and `https://acmeco.com`
+   - `boards.greenhouse.io/acmeco/` → try `https://acmeco.com`
+   - `jobs.lever.co/acmeco/` → try `https://acmeco.com`
+   - `jobs.smartrecruiters.com/AcmeCo/` → try `https://www.acmeco.com`
+   - Does not apply to LinkedIn or Welcome to the Jungle URLs — the slug/ID encodes the job posting, not the company domain. Go straight to WebSearch fallback if the JD text has no company URL.
 3. **WebSearch fallback** — search `"[Company Name]" official website` and take the first result that matches the company
 
 Fetch the homepage URL to confirm it loads. If no homepage can be confirmed, write `Homepage:` blank and note it.
 
 ---
 
-## Step 5 — Create one MD file per job
+## Step 5 — Check against blacklist
 
-For each job, create a file in `work-in-progress/` named after the company in lowercase with hyphens (e.g. `tessl.md`, `mri-software.md`). If a file with that name already exists, append `-2`, `-3` etc.
+For each job, compare the extracted company name (Step 3) and confirmed homepage (Step 4) against every entry loaded from `input/blacklisted-companies.md`:
+- Match if the company name matches an entry's `Company` (case-insensitive), or
+- Match if the homepage domain matches an entry's `Homepage` domain
+
+If a job matches, do not create a file for it in Step 6. Record it for Step 7/8 as blacklisted, noting which entry matched and that entry's `Reason`.
+
+---
+
+## Step 6 — Create one MD file per job
+
+For each job, create a file in `work-in-progress/` named after the company in lowercase with hyphens (e.g. `acme-co.md`, `widget-software.md`). If a file with that name already exists, append `-2`, `-3` etc.
 
 Populate using the template structure:
 
@@ -238,25 +250,33 @@ Clean the JD text: remove nav menus, cookie banners, footer links, and "apply no
 
 ---
 
-## Step 6 — Update jobs-to-scan.md
+## Step 7 — Update jobs-to-scan.md
 
-Move each processed URL from `## To Scan` to `## Done`, appending the filename created next to it:
-
-```
-## Done
-- [URL] → tessl.md
-```
-
-If a URL failed to fetch, move it to a `## Failed` section with a short note on why.
+Move each processed URL from `## To Scan` to one of:
+- `## Done`, appending the filename created next to it:
+  ```
+  ## Done
+  - [URL] → acme-co.md
+  ```
+- `## Blacklisted`, if it was skipped in Step 5, noting the matched entry and reason:
+  ```
+  ## Blacklisted
+  - [URL] → skipped, matches blacklist entry "Acme Recruiting Co" (AI recruiter — never names the actual hiring company in postings)
+  ```
+- `## Failed`, if it failed to fetch, with a short note on why.
 
 ---
 
-## Step 7 — Report to the user
+## Step 8 — Report to the user
 
 List each file created:
 - Filename
 - Job title and company name
 - Homepage found or not found
 - Any failures or notes
+
+List each posting skipped as blacklisted:
+- Job title and company name
+- Which blacklist entry matched and its reason
 
 Then ask the user to review the files and run `/create-resume` when ready.

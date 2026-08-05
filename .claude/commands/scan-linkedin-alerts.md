@@ -4,29 +4,33 @@ Follow these steps exactly when this command is invoked.
 
 Check the dedicated automation Gmail inbox for unread LinkedIn job-alert digest emails — including ones forwarded in from another mailbox — extract every job link from each alert, dedup against jobs already tracked anywhere in this repo, append new ones to `work-in-progress/jobs-to-scan.md`, then run `/scan-jobs` to fetch full descriptions.
 
-This command only ever touches one specific Gmail account dedicated to this automation — never any other Gmail account that might be logged into the same browser profile. The account address is not written in this file (this file is committed to a public repo); read it from `input/linkedin-mailbox.md` (gitignored) at the start of every run. If that file doesn't exist, stop and tell the user it needs to be created first with the automation account's address.
+This command only ever touches one specific Gmail account dedicated to this automation — never any other Gmail account that might be logged into the same browser profile. The account address is not written in this file (this file is committed to a public repo); read it from `input/job-alerts-mailbox.md` (gitignored) at the start of every run. If that file doesn't exist, stop and tell the user it needs to be created first with the automation account's address.
 
 ---
 
 ## Step 0 — Confirm the correct Gmail account is active
 
-Read `input/linkedin-mailbox.md` to get the automation account's address.
+Read `input/job-alerts-mailbox.md` to get the automation account's address and the forwarding-source address (the user's personal Gmail, which auto-forwards LinkedIn alert mail into the automation account). Both are used to build the search in Step 1. If the forwarding-source line isn't present, proceed with sender-based matching only (skip the `from:[forwarding source]` and personal-forward clauses below).
 
 Use `claude-in-chrome` to open https://mail.google.com/mail/.
 
 Before reading or searching anything, check the account avatar/email shown in the top-right corner:
-- If it already matches the address from `linkedin-mailbox.md`, continue.
+- If it already matches the address from `job-alerts-mailbox.md`, continue.
 - If a different account is active, click the account switcher and select the correct one. If it isn't listed as an available account, stop and tell the user this account isn't logged into the browser — do not attempt to enter credentials or sign in on the user's behalf.
 
-Do not proceed to Step 1 until the active account is confirmed to match `linkedin-mailbox.md`.
+Do not proceed to Step 1 until the active account is confirmed to match `job-alerts-mailbox.md`.
 
 ---
 
 ## Step 1 — Search for unread LinkedIn alert emails
 
-In the confirmed automation account, search: `is:unread (from:jobalerts-noreply@linkedin.com OR (subject:"Fwd:" "jobalerts-noreply@linkedin.com"))`
+LinkedIn sends job-alert mail from more than one address — both `jobalerts-noreply@linkedin.com` (saved-search alerts) and `jobs-noreply@linkedin.com` ("Jobs picked for you" / "Jobs similar to..." recommendation digests) are in scope. Treat any other `...@linkedin.com` sender surfaced by this search as in scope too — don't assume these two are the complete list.
 
-This catches both alerts sent directly to this mailbox and alerts forwarded in from another mailbox (identified by a "Fwd:" subject whose forwarded headers mention `jobalerts-noreply@linkedin.com`).
+In the confirmed automation account, search: `is:unread (from:jobalerts-noreply@linkedin.com OR from:jobs-noreply@linkedin.com OR from:[forwarding-source address] OR (subject:"Fwd:" ("jobalerts-noreply@linkedin.com" OR "jobs-noreply@linkedin.com")))`
+
+Substitute `[forwarding-source address]` with the address read from `input/job-alerts-mailbox.md` in Step 0; drop that clause entirely if no forwarding-source line was present.
+
+This catches alerts sent directly to this mailbox, alerts auto-forwarded in from the user's personal Gmail (arrives with the original LinkedIn sender intact, or from the forwarding-source address depending on forwarding method), and alerts manually forwarded in from another mailbox (identified by a "Fwd:" subject whose forwarded headers mention one of the known LinkedIn sender addresses).
 
 If there are no results, tell the user there are no new alerts and stop — do not run Step 7.
 
@@ -81,3 +85,5 @@ State clearly:
 ## Step 7 — Run /scan-jobs
 
 If any new URLs were added in Step 5, immediately invoke `/scan-jobs` to fetch full descriptions and create the corresponding `work-in-progress/*.md` files. If no new URLs were added (everything was a duplicate), skip this step and say so.
+
+`/scan-jobs` applies its own blacklist check (`input/blacklisted-companies.md`) after fetching each posting, since the company isn't known until the JD is fetched — no separate blacklist step is needed here.

@@ -2,7 +2,7 @@ Follow these steps exactly when this command is invoked.
 
 ## Purpose
 
-Guide the user through first-time setup of this job search workflow: capturing their resume, optionally capturing their behavioral story library, optionally setting up a dedicated LinkedIn alerts mailbox, and building the `positioning/` files that `/create-resume` uses to avoid undercounting the user's real differentiators. Safe to re-run later — each step checks whether its output already exists and skips it, so re-running after a resume update only touches what needs to change.
+Guide the user through first-time setup of this job search workflow: capturing their resume, optionally capturing their behavioral story library, optionally setting up a dedicated job alerts mailbox, optionally setting up a blacklisted-companies list, and building the `positioning/` files that `/create-resume` uses to avoid undercounting the user's real differentiators. Safe to re-run later — each step checks whether its output already exists and skips it, so re-running after a resume update only touches what needs to change.
 
 ---
 
@@ -11,7 +11,8 @@ Guide the user through first-time setup of this job search workflow: capturing t
 Check for the existence of:
 - `input/resume.md`
 - `input/story-library.md`
-- `input/linkedin-mailbox.md`
+- `input/job-alerts-mailbox.md`
+- `input/blacklisted-companies.md`
 - `positioning/differentiators.md`
 - `positioning/career-narrative.md`
 
@@ -39,27 +40,50 @@ Ask if the user wants to create it now (paste their stories, or paste a rough ve
 
 ---
 
-## Step 3 — LinkedIn alerts mailbox (optional)
+## Step 3 — Job alerts mailbox (optional)
 
-If `input/linkedin-mailbox.md` does not exist:
+If `input/job-alerts-mailbox.md` does not exist:
 
-Explain its purpose clearly: `/scan-linkedin-alerts` checks a dedicated Gmail inbox for unread LinkedIn job-alert emails (sent directly, or forwarded in from another mailbox) and pulls job links from them automatically, feeding into the same `work-in-progress/jobs-to-scan.md` queue that `/scan-jobs` reads from. It requires a Gmail account dedicated solely to this purpose — not the user's personal or work email — since the command reads and searches that inbox directly.
+Explain its purpose clearly: job-alert scanning commands (`/scan-linkedin-alerts`, `/scan-wttj-alerts`) check a dedicated Gmail inbox for unread job-alert emails (sent directly, or forwarded in from another mailbox) and pull job links from them automatically, feeding into the same `work-in-progress/jobs-to-scan.md` queue that `/scan-jobs` reads from. It requires a Gmail account dedicated solely to this purpose — not the user's personal or work email — since these commands read and search that inbox directly.
 
 Ask if the user wants to set this up now or skip it and add it later. Do not create or write this file directly, for the same reason as Steps 1 and 2 — this also means never asking for or handling a password; only the address of an account the user has already created themselves.
 
-If the user wants to proceed, tell them to create `input/linkedin-mailbox.md` with this content, replacing the placeholder:
+If the user wants to proceed, tell them to create `input/job-alerts-mailbox.md` with this content, replacing the placeholder:
 
 ```
-# LinkedIn Alerts Mailbox
+# Job Alerts Mailbox
 
-Dedicated Gmail account used by `/scan-linkedin-alerts` for reading LinkedIn job-alert digest emails. Not committed to the public repo — input/ is excluded by default in .gitignore except job-description-template.md.
+Dedicated Gmail account used by job-alert scanning commands (/scan-linkedin-alerts, /scan-wttj-alerts) for reading job-alert digest emails. Not committed to the public repo — input/ is excluded by default in .gitignore except job-description-template.md.
 
 Account: <paste address here>
 ```
 
 ---
 
-## Step 4 — Positioning (interactive — do not skip the back-and-forth)
+## Step 4 — Blacklisted companies (optional)
+
+If `input/blacklisted-companies.md` does not exist:
+
+Explain its purpose clearly: `/scan-jobs` checks this file after fetching each posting and skips creating a file for any company/poster listed in it — useful for excluding known low-quality posters (e.g. AI recruiters that never name the real hiring company) or specific companies the user never wants to see again, without having to re-skip them manually every time they resurface under a new posting ID.
+
+Ask if the user wants to set this up now (with an initial entry or two) or skip it and add entries later via a plain request in conversation. This is derived/maintained list data, not raw personal data, so — unlike Steps 1–3 — write the file directly once the user gives at least one entry (or confirms they want the file created empty to add to later):
+
+```
+# Blacklisted Companies
+
+Companies/posters to exclude from future job search consideration. Check this list during `/scan-jobs` and `/scan-linkedin-alerts` — skip any posting whose poster or hiring company matches an entry here, and note the skip in the run report.
+
+## Entries
+
+| Company | Homepage | Reason | Date Added |
+|---|---|---|---|
+```
+
+Append a row per entry the user provides, with today's date.
+
+---
+
+## Step 5 — Positioning (interactive — do not skip the back-and-forth)
 
 Only run once `input/resume.md` exists. Uses `input/resume.md` alone — never `input/story-library.md` — because positioning describes what a recruiter or hiring panel sees on the page, not the fuller narrative behind it.
 
@@ -81,6 +105,6 @@ Only run once `input/resume.md` exists. Uses `input/resume.md` alone — never `
 
 ---
 
-## Step 5 — Wrap-up
+## Step 6 — Wrap-up
 
-Summarize what now exists (resume, story library if created, LinkedIn mailbox if created, both positioning files). Point to the next step in the workflow: `job-search-launcher.html` or `job-search-queries.md` to find roles (or `/scan-linkedin-alerts` if the mailbox was set up), then `/scan-jobs` to start the pipeline.
+Summarize what now exists (resume, story library if created, job alerts mailbox if created, blacklisted-companies list if created, both positioning files). Point to the next step in the workflow: `job-search-launcher.html` or `job-search-queries.md` to find roles (or `/scan-linkedin-alerts` / `/scan-wttj-alerts` if the mailbox was set up), then `/scan-jobs` to start the pipeline.
