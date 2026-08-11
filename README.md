@@ -1,6 +1,6 @@
 # Job Search — Claude Code Workflow
 
-A personal job search system built on [Claude Code](https://claude.ai/code). Eight slash commands handle the full pipeline: guided setup, optionally pulling job links from LinkedIn and Welcome to the Jungle alert emails, fetching job descriptions, matching against a resume, generating personalised resume summaries and application answers, and managing the interview pipeline from recruiter call through to hiring manager interview.
+A personal job search system built on [Claude Code](https://claude.ai/code). Nine slash commands handle the full pipeline: guided setup, optionally pulling job links from LinkedIn and Welcome to the Jungle alert emails, fetching job descriptions, matching against a resume, generating personalised resume summaries and application answers, ranking the active pipeline by fit, and managing the interview pipeline from recruiter call through to hiring manager interview.
 
 ---
 
@@ -92,6 +92,7 @@ This command only ever touches the one Gmail account named in `input/job-alerts-
 
 Each created file contains:
 - Job title, company name, source URL, and confirmed company homepage
+- Posted date, where the ATS exposes one (see reliability notes below)
 - Full job description text (cleaned of nav and footer chrome)
 - Application form questions, if present on the page
 
@@ -99,10 +100,13 @@ Supported ATS platforms and their fetch methods:
 
 | ATS | Method |
 |-----|--------|
-| Greenhouse, Lever, Workable, SmartRecruiters, Jobvite, Recruitee, Teamtailor, Breezy HR, Personio | curl (server-rendered) |
-| Ashby, Workday, Oracle HCM, Welcome to the Jungle (app.welcometothejungle.com) | Chrome headless |
+| Greenhouse, Lever, Workable (server-rendered, `jobs.workable.com`), SmartRecruiters, Jobvite, Recruitee, Teamtailor, Breezy HR, Personio | curl (server-rendered) |
+| Ashby, Workday, Oracle HCM, Workable (client-rendered apply flow, `apply.workable.com`), Welcome to the Jungle (app.welcometothejungle.com) | Chrome headless |
 | iCIMS | Chrome headless with user-agent |
+| LinkedIn (`linkedin.com/jobs/view/<id>`, public postings only — not logged-in search results) | curl with a browser user-agent |
 | Unknown / company careers pages | curl first, Chrome headless fallback |
+
+**Posted date reliability** — most ATS expose a `datePosted` field (schema.org JobPosting, used for SEO), extracted automatically: confirmed working on Workable, SmartRecruiters, Breezy HR, Teamtailor, Ashby, Welcome to the Jungle, Lever, and LinkedIn (as a relative string like "5 days ago"). **Greenhouse never exposes one** — confirmed absent, not worth re-checking. Workday and Oracle HCM are inconclusive (the fetch itself often stalls on a cookie-consent wall before reaching the date). Jobvite, Recruitee, Personio, and iCIMS are unverified — checked opportunistically, not guaranteed.
 
 ---
 
@@ -126,6 +130,17 @@ For each file, Claude appends a `## Resume Personalisation` section containing:
 7. **Scored Summaries** — the Step 5 personalised summary is reproduced as Option 0 (Baseline) and scored alongside 3 alternatives; all four scored out of 10 across conciseness, punchiness, and clarity in one block for direct comparison; each alternative must score at least 8.5 — if not, it's revised once and rescored, with an explicit note if it's still below 8.5 after that
 8. **Fit Assessment** — opens with a business model check: identifies what the PM in the role actually builds for (business customers = no gap; consumers or marketplace = gap; for mixed-model companies, states explicitly which side the role sits on and whether that creates a gap); then issues Fit / Stretch / Out of Reach against core requirements, with preferred/nice-to-have requirements factored in as a bonus — an unmet requirement that's the JD's named standout differentiator (or repeated/emphasized elsewhere) can still trigger a one-level downgrade even though it isn't formally core; followed by fit basis: whether the domain and primary user type transfer directly or require a mental leap
 9. **Application Form Answers** — drafted answers for any questions present in the file; uses `input/story-library.md` for narrative shape and context, cross-checked against `input/resume.md` for exact numbers; each answer capped at 300 words; checked for evidence reuse across the file's own questions before drafting, so the same company/story isn't used twice without a reason
+
+---
+
+### `/rank-pipeline` — Table of every role by fit
+
+```
+/rank-pipeline                    # scans work-in-progress/ (default)
+/rank-pipeline done/successful    # scans any other folder
+```
+
+Reads every `.md` file in the target folder that has a completed Fit Assessment and produces one markdown table — Company, Industry, Business Model, Posted, Fit — ordered Fit → Stretch → Out of Reach. Posted date is pulled verbatim from each file's `Posted:` line and left blank where the ATS never exposed one. Reruns are appended, not overwritten, so the table always reflects the most recent verdict in each file, not the original one. Files with no Fit Assessment yet are listed separately rather than guessed at.
 
 ---
 
@@ -199,6 +214,7 @@ job-search/
         ├── scan-wttj-alerts.md        # /scan-wttj-alerts command definition
         ├── scan-jobs.md               # /scan-jobs command definition
         ├── create-resume.md           # /create-resume command definition
+        ├── rank-pipeline.md           # /rank-pipeline command definition
         ├── prepare-recruiter.md       # /prepare-recruiter command definition
         ├── thank-recruiter.md         # /thank-recruiter command definition
         └── thank-hm.md                # /thank-hm command definition
@@ -225,6 +241,7 @@ job-search/
         |
         v
 5. Review           read the fit assessment, pros/cons, and alternative summaries
+                    (or) /rank-pipeline for a table of every role by fit, across the whole folder
         |
      ┌──┴──┐
      |     |

@@ -24,7 +24,7 @@ For each URL, detect the ATS from the URL pattern and fetch using the correct me
 - Greenhouse (standard): `boards.greenhouse.io`
 - Greenhouse (embed): `job-boards.greenhouse.io`
 - Lever: `jobs.lever.co`
-- Workable: `jobs.workable.com`
+- Workable (server-rendered): `jobs.workable.com`
 - SmartRecruiters: `jobs.smartrecruiters.com`
 - Jobvite: `jobs.jobvite.com`
 - Recruitee: `recruitee.com`
@@ -64,6 +64,7 @@ print(''.join(p.text))
 - Ashby: `jobs.ashbyhq.com`
 - Workday: `myworkdayjobs.com`
 - Oracle Cloud HCM: `oraclecloud.com/hcmUI`
+- Workable (client-rendered apply flow): `apply.workable.com` — plain curl returns only an empty JS shell (~7KB, no JD content); this domain doesn't match the "unknown page" fallback trigger reliably because the shell isn't literally empty, so route it to Chrome headless directly.
 - Welcome to the Jungle: `app.welcometothejungle.com` — plain curl only returns an empty SPA shell with generic meta tags (title "Welcome to the Jungle - The better way to find a job in tech" regardless of the actual job); Chrome headless is required to get real content. The rendered page's `<title>` follows the pattern `[Company] [Job Title] | Welcome to the Jungle (formerly Otta)` — use it to confirm title and company if not otherwise clear from the body text.
 
 ```bash
@@ -185,8 +186,12 @@ Issue all fetches in parallel. If a fetch fails or returns no meaningful content
 From the fetched text, extract:
 - **Job title** — the role title as written in the posting
 - **Company name** — as written in the posting
+- **Posted date** — search the raw fetched content (not the cleaned text) for a `datePosted` field. The whitespace around the colon varies by ATS, so check loosely for `"datePosted"` followed by a `YYYY-MM-DD` value — forms seen so far: `"datePosted":"YYYY-MM-DD..."`, `"datePosted" : "YYYY-MM-DD"` (Lever), and `"datePosted" content="YYYY-MM-DD...">` (meta tag). Extract just the `YYYY-MM-DD` portion. Confirmed present on: Workable (both domains), SmartRecruiters, Breezy HR, Teamtailor, Ashby, Welcome to the Jungle, Lever.
+  - **Greenhouse never exposes a posted date** — no JSON-LD, no DOM field on the job page. Its board-list page has an `updated_at` value but it's identical across every job on the board (a page-cache timestamp, not per-job data) — do not use it. Leave `Posted:` blank, don't burn extra fetches looking.
+  - **Workday and Oracle Cloud HCM** — not reliably extractable yet; the Chrome headless dump often stalls on a cookie-consent shell before real job content loads. Leave blank rather than guessing.
+  - **Jobvite, Recruitee, Personio, iCIMS** — unverified. Check opportunistically for the same `datePosted` JSON-LD pattern; many ATS use the schema.org JobPosting standard for SEO, but treat absence as inconclusive, not confirmed-unsupported, until it's been checked against a live example.
 
-For LinkedIn (Method D) sources, take Company and Location directly from the first two `FLAVOR` lines rather than re-parsing the description body.
+For LinkedIn (Method D) sources, take Company and Location directly from the first two `FLAVOR` lines rather than re-parsing the description body, and take Posted date from the third `FLAVOR` line — a relative string like "5 days ago". Record it verbatim; don't convert it to an absolute date.
 
 ---
 
@@ -228,6 +233,7 @@ Populate using the template structure:
 
 Source: [original URL]
 Homepage: [confirmed homepage URL or blank]
+Posted: [date found, or relative string for LinkedIn, or blank]
 
 ---
 
@@ -273,6 +279,7 @@ List each file created:
 - Filename
 - Job title and company name
 - Homepage found or not found
+- Posted date found or not found (note the ATS if not found, since some — Greenhouse, Workday, Oracle Cloud HCM — don't reliably expose one)
 - Any failures or notes
 
 List each posting skipped as blacklisted:
