@@ -191,7 +191,7 @@ From the fetched text, extract:
   - **Workday and Oracle Cloud HCM** — not reliably extractable yet; the Chrome headless dump often stalls on a cookie-consent shell before real job content loads. Leave blank rather than guessing.
   - **Jobvite, Recruitee, Personio, iCIMS** — unverified. Check opportunistically for the same `datePosted` JSON-LD pattern; many ATS use the schema.org JobPosting standard for SEO, but treat absence as inconclusive, not confirmed-unsupported, until it's been checked against a live example.
 
-For LinkedIn (Method D) sources, take Company and Location directly from the first two `FLAVOR` lines rather than re-parsing the description body, and take Posted date from the third `FLAVOR` line — a relative string like "5 days ago". Record it verbatim; don't convert it to an absolute date.
+For LinkedIn (Method D) sources, take Company and Location directly from the first two `FLAVOR` lines rather than re-parsing the description body, and take Posted date from the third `FLAVOR` line — a relative string like "5 days ago", "3 weeks ago", "1 month ago", "Xh ago", or "Just now". **Convert it to an absolute `YYYY-MM-DD` date** by subtracting the offset from today's date (the date of this scan run) — e.g. "5 days ago" scanned on 2026-08-11 becomes `2026-08-04`. Treat "Xh ago", "Xm ago", and "Just now" as today's date. Record the resulting absolute date, not the relative string — a relative string goes stale the moment the file is reopened later (e.g. when deciding whether to apply), while an absolute date stays meaningful indefinitely.
 
 ---
 
@@ -233,7 +233,7 @@ Populate using the template structure:
 
 Source: [original URL]
 Homepage: [confirmed homepage URL or blank]
-Posted: [date found, or relative string for LinkedIn, or blank]
+Posted: [date found, converted to YYYY-MM-DD if the source gave a relative string, or blank]
 
 ---
 
