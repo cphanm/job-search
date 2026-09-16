@@ -19,7 +19,15 @@ Do not overwrite or remove any existing content in the file.
 
 ---
 
-### Section 1 — What to lead with
+### Section 1 — Gaps and how to handle them
+
+From Step 2 (Gaps to flag) and Step 6 (Fit Assessment), list the real gaps. For each gap:
+- State the gap clearly in one line
+- State how the user should handle it if raised: reframe with a bridge, acknowledge and redirect, or do not volunteer
+
+---
+
+### Section 2 — What to lead with
 
 Based on the JD's top priorities (Step 1 challenges) and the user's strongest evidence (Step 2), write 3–4 bullet points on what the user should open with in the recruiter call.
 
@@ -30,7 +38,21 @@ Rules:
 
 ---
 
-### Section 2 — 3 Questions to ask the recruiter
+### Section 3 — One-minute pitch
+
+Write a spoken-style pitch of roughly 130–150 words (about one minute aloud), in this order:
+1. A brief who-you-are/trajectory line
+2. Why this role
+3. Why this company
+
+Rules:
+- Must not be generic — mirror the company's actual language and challenge, not boilerplate enthusiasm
+- Ground every claim in real evidence from Step 2, not aspirational statements
+- Write it as continuous spoken prose, not bullet points
+
+---
+
+### Section 4 — 3 Questions to ask the recruiter
 
 Generate 3 questions for the user to ask the recruiter. These must:
 - Be answerable by a recruiter (team structure, why the role is open, screening priorities) — not deep product or technical questions reserved for the hiring manager
@@ -41,17 +63,3 @@ Format:
 - **Q1:** [question] — [one line on why this is worth asking]
 - **Q2:** [question] — [one line on why this is worth asking]
 - **Q3:** [question] — [one line on why this is worth asking]
-
----
-
-### Section 3 — Gaps and how to handle them
-
-From Step 2 (Gaps to flag) and Step 6 (Fit Assessment), list the real gaps. For each gap:
-- State the gap clearly in one line
-- State how the user should handle it if raised: reframe with a bridge, acknowledge and redirect, or do not volunteer
-
----
-
-### Section 4 — Why this role (one line)
-
-Write one sentence capturing the user's specific motivation for this role — grounded in the company's actual challenge and the user's trajectory. Must not be generic. Mirror the company's language where possible.
